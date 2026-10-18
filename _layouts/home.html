@@ -1,0 +1,6 @@
+---
+layout: default
+---
+{{ content }}
+<h2>Recent editions</h2>
+{% for post in site.posts %}<article class="preview"><p class="date">{{ post.date | date: '%B %-d, %Y' }}</p><h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3><p>{{ post.excerpt | strip_html | truncatewords: 36 }}</p><a href="{{ post.url | relative_url }}">Read dispatch →</a></article>{% endfor %}
