@@ -1,0 +1,4 @@
+---
+layout: default
+---
+<article><p class="date">{{ page.date | date: '%B %-d, %Y' }}</p><h1>{{ page.title }}</h1><p class="tags">{% for tag in page.tags %}<span>{{ tag }}</span>{% endfor %}</p>{{ content }}</article><p><a href="{{ '/' | relative_url }}">← All dispatches</a></p>
