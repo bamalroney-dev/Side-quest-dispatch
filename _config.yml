@@ -1,0 +1,12 @@
+title: Side Quest Dispatch
+description: Daily checkpoints for Disney, Pokémon, gaming, Oklahoma events, concerts, and major news.
+url: "https://bamalroney-dev.github.io"
+baseurl: "/Side-quest-dispatch"
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+timezone: America/Chicago
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+exclude:
+  - README.md
