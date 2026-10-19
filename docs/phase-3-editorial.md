@@ -17,3 +17,20 @@ No AI API calls, API keys, billing, or automatic AI publishing. The validator re
 ## Run tests
 
 `python -m unittest discover -s tests -v`
+
+## Offline review packet (added)
+
+The new `scripts/editorial_queue.py` ranks previously researched, source-linked JSON stories and creates a review-only packet. It does **not** call AI or retrieve article bodies. The candidate selection score currently uses only category priority, publication freshness, and a neutral reliability placeholder. Impact and significance remain unscored until supporting evidence and a reviewer exist.
+
+```sh
+python scripts/editorial_queue.py input/verified-stories.json --output review/queue.json
+python -m unittest discover -s tests -v
+```
+
+The input `stories` array uses the same schema as `examples/editorial-draft.json`, including actual source evidence and summaries. The example is illustrative and will fail the 48-hour freshness rule after its sample date. The output has `review_status: pending` and `automatic_publication: false`. Writing directly into `_posts` is refused.
+
+**Next unimplemented steps:** collecting article-level evidence, a real AI adapter with user-approved billing and secrets, claim-level verification, a reviewer approval interface, and a separate approved publication command. Do not merge this branch expecting full automatic AI editing.
+
+## CI
+
+`.github/workflows/editorial-checks.yml` runs offline tests on pull requests affecting editorial code and supports manual triggering. It cannot deploy or write to the repository. The original 7 AM Central publisher is unchanged.
