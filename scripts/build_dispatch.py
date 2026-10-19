@@ -6,6 +6,7 @@ import email.utils
 import hashlib
 import html
 import json
+import os
 import pathlib
 import re
 import urllib.request
@@ -95,7 +96,7 @@ def main():
     args = parser.parse_args()
     now = dt.datetime.now(dt.timezone.utc)
     local = now.astimezone(TZ)
-    if args.scheduled and local.hour != 7:
+    if args.scheduled and os.environ.get("GITHUB_EVENT_NAME") == "schedule" and local.hour != 7:
         print("Not 07:00 Central; skipping alternate DST cron.")
         return
     today = local.date().isoformat()
