@@ -12,33 +12,13 @@ import re
 import urllib.request
 import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
+from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
+from source_registry import FEEDS, RESEARCH_TARGETS
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 INDEX = ROOT / "data" / "story-index.json"
 POSTS = ROOT / "_posts"
 TZ = ZoneInfo("America/Chicago")
-FEEDS = {
-    "Breaking U.S. and World News": [
-        ("AP Top News", "https://apnews.com/hub/ap-top-news?output=rss"),
-        ("BBC World", "https://feeds.bbci.co.uk/news/world/rss.xml"),
-    ],
-    "Major U.S. and World Developments": [
-        ("BBC Business", "https://feeds.bbci.co.uk/news/business/rss.xml"),
-        ("BBC Technology", "https://feeds.bbci.co.uk/news/technology/rss.xml"),
-    ],
-    "Disney Parks": [
-        ("Disney Parks Blog", "https://disneyparksblog.com/feed/"),
-    ],
-    "Pokémon": [
-        ("Pokémon News", "https://www.pokemon.com/us/pokemon-news/rss"),
-    ],
-    "RuneScape 3": [
-        ("RuneScape News", "https://secure.runescape.com/m=news/latest_news.rss"),
-    ],
-    "Old School RuneScape": [
-        ("Old School RuneScape", "https://secure.runescape.com/m=news/latest_news.rss?oldschool=1"),
-    ],
-}
 CATEGORIES = [
     "Jenks and Tulsa Family Activities", "Oklahoma Concerts and Live Music",
     "Breaking U.S. and World News", "Viral Stories",
@@ -90,6 +70,13 @@ def read_feed(source, url):
 def md(value):
     return re.sub(r"([\\*_`\[\]])", r"\\\1", clean(value))
 
+def story_key(url):
+    parts = urlsplit(url)
+    path = parts.path.rstrip("/") or "/"
+    query = urlencode(sorted((k,v) for k,v in parse_qsl(parts.query) if not k.lower().startswith("utm_") and k.lower() not in {"fbclid","gclid"}))
+    normalized = urlunsplit((parts.scheme.lower(), parts.netloc.lower(), path, query, ""))
+    return hashlib.sha256(normalized.encode()).hexdigest()
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--scheduled", action="store_true")
@@ -107,21 +94,29 @@ def main():
     history = json.loads(INDEX.read_text()) if INDEX.exists() else {"urls": {}}
     seen = history.get("urls", {})
     grouped = {}
+    run_keys = set()
+    diagnostics = {}
     for category, sources in FEEDS.items():
         candidates = []
+        errors = []
         for source, url in sources:
             try:
                 candidates.extend(read_feed(source, url))
             except Exception as error:
+                errors.append(f"{source}: {type(error).__name__}")
                 print(f"Feed unavailable ({source}): {error}")
         eligible = []
         for item in sorted(candidates, key=lambda x: x["published"], reverse=True):
             age = now - item["published"]
-            key = hashlib.sha256(item["url"].encode()).hexdigest()
-            if dt.timedelta(0) <= age <= dt.timedelta(hours=48) and key not in seen:
+            key = story_key(item["url"])
+            if dt.timedelta(0) <= age <= dt.timedelta(hours=48) and key not in seen and key not in run_keys:
                 item["key"] = key
                 eligible.append(item)
+                run_keys.add(key)
         grouped[category] = eligible[:5]
+        diagnostics[category] = {"sources": len(sources), "retrieved": len(candidates), "selected": len(grouped[category]), "errors": errors}
+    print("SOURCE_REPORT " + json.dumps(diagnostics, sort_keys=True))
+    print("RESEARCH_ONLY_CATEGORIES " + ", ".join(RESEARCH_TARGETS))
     total = sum(map(len, grouped.values()))
     if not total:
         print("No fresh verified feed items; no post created.")
