@@ -1,0 +1,34 @@
+name: Daily Side Quest Dispatch
+on:
+  schedule:
+    - cron: '5 12,13 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: side-quest-dispatch-daily
+  cancel-in-progress: false
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check Central time and generate dispatch
+        env:
+          TZ: America/Chicago
+        run: |
+          python scripts/build_dispatch.py --scheduled
+      - name: Commit new dispatch and story index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _posts data/story-index.json
+          if git diff --cached --quiet; then
+            echo "No new qualifying dispatch to publish."
+          else
+            git commit -m "Publish daily Side Quest Dispatch"
+            git push
+          fi
