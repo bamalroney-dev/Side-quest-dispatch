@@ -34,3 +34,29 @@ The input `stories` array uses the same schema as `examples/editorial-draft.json
 ## CI
 
 `.github/workflows/editorial-checks.yml` runs offline tests on pull requests affecting editorial code and supports manual triggering. It cannot deploy or write to the repository. The original 7 AM Central publisher is unchanged.
+
+## Step 2: article evidence collector
+
+`scripts/article_evidence.py` reads a JSON `stories` array, fetches public HTML from an explicit publisher-domain allowlist, and saves a **review-only** evidence packet. It captures article title, a publisher-claimed date, metadata description, and up to 8,000 characters of page text. These fields are **not independently fact-checked**. Failures are marked `needs_manual_review`, never silently treated as verified.
+
+The fetcher has HTTPS/domain checks, rejects redirects, checks DNS for non-public addresses, enforces request timeout and response-size limits, and never executes scripts. Publisher access restrictions must be respected. It is not a hardened security boundary against DNS rebinding; only run it with trusted collector-produced URLs in the GitHub runner, not as an arbitrary public URL service.
+
+Example after preparing fresh stories in `review/stories.json`:
+
+```sh
+python scripts/article_evidence.py review/stories.json --output review/evidence.json --limit 10
+python -m unittest discover -s tests -v
+```
+
+The `review/stories.json` input can be produced by the existing `editorial_queue.py` (its output has a `stories` array). **Do not commit retrieved article text to the public repository**; review it locally and respect publishers' terms and copyright. The collector is not wired into the scheduled workflow.
+
+## Step 3: real-world validation checklist
+
+1. Select up to 10 **recent** article URLs from your RSS feed output, across Disney, Pokémon, RuneScape, and BBC.
+2. Run the command above locally in a trusted Python 3.12+ environment.
+3. Inspect `review/evidence.json` and compare each extracted excerpt and metadata field with its original source page. Flag cookie notices, navigation text, missing dates, paywalls, and errors.
+4. Count `extracted_unverified` vs. `needs_manual_review`. A successful extraction **does not** mean the content is verified.
+5. Share only redacted status/error summaries for troubleshooting, not full copyrighted article bodies.
+6. Run offline CI tests on the PR. Do not merge or enable AI publication yet.
+
+Known limitations: simplistic HTML extraction includes page navigation and other boilerplate; metadata dates may be absent or misleading; publishers can redirect or block automated clients; host allowlist may need review as official article domains evolve. Full article extraction and factual validation are not yet solved.
