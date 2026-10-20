@@ -1,0 +1,16 @@
+{
+  "stories": [
+    {
+      "title": "Example story (not for publication)",
+      "category": "Pokémon",
+      "url": "https://example.org/story",
+      "source": "Example",
+      "published_at": "2026-10-19T12:00:00Z",
+      "summary": "Placeholder requiring factual review.",
+      "why_it_matters": "Placeholder requiring editorial review.",
+      "evidence_urls": [
+        "https://example.org/story"
+      ]
+    }
+  ]
+}
