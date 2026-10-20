@@ -16,6 +16,7 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler
 from source_registry import FEEDS
 from editorial import valid_https
 
+ARTICLE_HOSTS = {"www.bbc.com", "www.bbc.co.uk", "apnews.com", "disneyparksblog.com", "www.pokemon.com", "secure.runescape.com", "oldschool.runescape.com"}
 MAX_BYTES = 750_000
 MAX_TEXT = 8_000
 MAX_STORIES = 15
@@ -57,7 +58,7 @@ def normalize(text):
     return " ".join(text.split())
 
 def allowed_hosts():
-    return {urlsplit(url).hostname.lower() for feeds in FEEDS.values() for _, url in feeds}
+    return ARTICLE_HOSTS | {urlsplit(url).hostname.lower() for feeds in FEEDS.values() for _, url in feeds}
 
 def permitted(url, hosts=None):
     if not valid_https(url):
