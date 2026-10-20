@@ -4,6 +4,7 @@ on:
     paths:
       - 'scripts/editorial.py'
       - 'scripts/editorial_queue.py'
+      - 'scripts/article_evidence.py'
       - 'tests/**'
       - '.github/workflows/editorial-checks.yml'
   workflow_dispatch:
@@ -18,6 +19,6 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile editorial scripts
-        run: python -m py_compile scripts/editorial.py scripts/editorial_queue.py
+        run: python -m py_compile scripts/editorial.py scripts/editorial_queue.py scripts/article_evidence.py
       - name: Run all offline tests
         run: python -m unittest discover -s tests -v
