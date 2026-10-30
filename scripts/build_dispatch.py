@@ -33,6 +33,24 @@ def clean(value):
     value = re.sub(r"<[^>]*>", " ", value or "")
     return re.sub(r"\s+", " ", html.unescape(value)).strip()
 
+def sentence_aware_excerpt(value, limit=1000):
+    """Prefer complete sentences, then word boundaries; never slice mid-word."""
+    text = clean(value)
+    if len(text) <= limit:
+        return text
+    prefix = text[:limit + 1]
+    # Prefer a complete sentence near the end of the available excerpt.
+    ends = list(re.finditer(r"[.!?](?=\\s|$)", prefix))
+    if ends:
+        end = ends[-1].end()
+        if end >= limit // 2:
+            return text[:end]
+    # Otherwise truncate at a word boundary and indicate omitted content.
+    cutoff = text.rfind(" ", 0, limit - 1)
+    if cutoff < limit // 2:
+        cutoff = limit - 1
+    return text[:cutoff].rstrip(" ,;:") + "…"
+
 def parse_date(raw):
     try:
         return email.utils.parsedate_to_datetime(raw).astimezone(dt.timezone.utc)
@@ -52,7 +70,7 @@ def read_feed(source, url):
         title = clean(item.findtext("title"))
         link = (item.findtext("link") or "").strip()
         date = parse_date(item.findtext("pubDate"))
-        description = clean(item.findtext("description"))[:350]
+        description = sentence_aware_excerpt(item.findtext("description"))
         if title and link.startswith("https://") and date:
             entries.append(dict(title=title, url=link, published=date, description=description, source=source))
     # Atom fallback
@@ -62,7 +80,7 @@ def read_feed(source, url):
         link_node = item.find(f"{ns}link")
         link = link_node.get("href", "") if link_node is not None else ""
         date = parse_date(item.findtext(f"{ns}published") or item.findtext(f"{ns}updated"))
-        description = clean(item.findtext(f"{ns}summary"))[:350]
+        description = sentence_aware_excerpt(item.findtext(f"{ns}summary"))
         if title and link.startswith("https://") and date:
             entries.append(dict(title=title, url=link, published=date, description=description, source=source))
     return entries
