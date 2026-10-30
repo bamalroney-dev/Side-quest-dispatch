@@ -40,7 +40,7 @@ def sentence_aware_excerpt(value, limit=1000):
         return text
     prefix = text[:limit + 1]
     # Prefer a complete sentence near the end of the available excerpt.
-    ends = list(re.finditer(r"[.!?](?=\\s|$)", prefix))
+    ends = list(re.finditer(r"[.!?](?=\s|$)", prefix))
     if ends:
         end = ends[-1].end()
         if end >= limit // 2:
