@@ -101,8 +101,8 @@ def main():
     args = parser.parse_args()
     now = dt.datetime.now(dt.timezone.utc)
     local = now.astimezone(TZ)
-    if args.scheduled and os.environ.get("GITHUB_EVENT_NAME") == "schedule" and local.hour != 7:
-        print("Not 07:00 Central; skipping alternate DST cron.")
+    if args.scheduled and os.environ.get("GITHUB_EVENT_NAME") == "schedule" and local.hour < 7:
+        print("Before 07:00 Central; skipping early DST cron.")
         return
     today = local.date().isoformat()
     path = POSTS / f"{today}-side-quest-dispatch.md"
