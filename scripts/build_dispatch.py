@@ -95,13 +95,17 @@ def story_key(url):
     normalized = urlunsplit((parts.scheme.lower(), parts.netloc.lower(), path, query, ""))
     return hashlib.sha256(normalized.encode()).hexdigest()
 
+def should_skip_scheduled_run(scheduled, event_name, local_time):
+    """Skip only the early DST cron, never a delayed scheduled execution."""
+    return scheduled and event_name == "schedule" and local_time.hour < 7
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--scheduled", action="store_true")
     args = parser.parse_args()
     now = dt.datetime.now(dt.timezone.utc)
     local = now.astimezone(TZ)
-    if args.scheduled and os.environ.get("GITHUB_EVENT_NAME") == "schedule" and local.hour < 7:
+    if should_skip_scheduled_run(args.scheduled, os.environ.get("GITHUB_EVENT_NAME"), local):
         print("Before 07:00 Central; skipping early DST cron.")
         return
     today = local.date().isoformat()
