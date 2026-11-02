@@ -1,0 +1,18 @@
+---
+layout: default
+title: Free Games
+permalink: /free-games/
+---
+<h1>Free Games</h1>
+<p>Your next side quest could be free. Find full-game giveaways from Epic Games and Amazon Gaming.</p>
+<p><a href="https://store.epicgames.com/en-US/free-games">Epic official offers ↗</a> · <a href="https://gaming.amazon.com/home">Amazon official claims ↗</a></p>
+<p>Amazon offers generally require Prime. Check the official claim page for membership, region, and redemption requirements.</p>
+<label>Store <select id="store"><option value="all">All stores</option><option value="Epic Games">Epic Games</option><option value="Amazon Gaming">Amazon Gaming</option></select></label>
+<label><input id="hide" type="checkbox"> Hide marked claimed</label>
+<button id="refresh" type="button">Refresh offers</button>
+<p id="status" role="status">Loading offers…</p>
+<div id="games"></div>
+<p>Offer discovery powered by <a href="https://www.gamerpower.com/">GamerPower</a>. Coverage may lag or omit offers; use the official store links to confirm availability. Feed deadlines are shown as supplied because its timezone is unspecified. Claimed marks are saved on this browser only.</p>
+<p>Alerts while this page is closed require a separate scheduled task; this page does not send background notifications.</p>
+<style>#games{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}#games article{border:1px solid #777;border-radius:12px;padding:1rem}#games h2{font-size:1.2rem}select,button{padding:.5rem;margin:.3rem}#games p{overflow-wrap:anywhere}</style>
+<script src="{{ '/assets/js/free-games.js' | relative_url }}" defer></script>
