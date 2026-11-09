@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
 from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 from source_registry import FEEDS, RESEARCH_TARGETS
+from publishing_diagnostics import emit_outcome, classify_story
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 INDEX = ROOT / "data" / "story-index.json"
@@ -102,16 +103,19 @@ def should_skip_scheduled_run(scheduled, event_name, local_time):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--scheduled", action="store_true")
+    parser.add_argument("--dry-run", action="store_true", help="Inspect eligible stories without writing files")
     args = parser.parse_args()
     now = dt.datetime.now(dt.timezone.utc)
     local = now.astimezone(TZ)
+    today = local.date().isoformat()
     if should_skip_scheduled_run(args.scheduled, os.environ.get("GITHUB_EVENT_NAME"), local):
         print("Before 07:00 Central; skipping early DST cron.")
+        emit_outcome("early_dst_skip", date=today)
         return
-    today = local.date().isoformat()
     path = POSTS / f"{today}-side-quest-dispatch.md"
     if path.exists():
         print("Edition already exists; not overwriting it.")
+        emit_outcome("already_exists", date=today, post=path.name)
         return
     history = json.loads(INDEX.read_text()) if INDEX.exists() else {"urls": {}}
     seen = history.get("urls", {})
@@ -128,20 +132,29 @@ def main():
                 errors.append(f"{source}: {type(error).__name__}")
                 print(f"Feed unavailable ({source}): {error}")
         eligible = []
+        reasons = {"future_dated": 0, "stale": 0, "previously_published": 0,
+                   "duplicate_this_run": 0, "category_limit": 0}
         for item in sorted(candidates, key=lambda x: x["published"], reverse=True):
-            age = now - item["published"]
-            key = story_key(item["url"])
-            if dt.timedelta(0) <= age <= dt.timedelta(hours=48) and key not in seen and key not in run_keys:
-                item["key"] = key
-                eligible.append(item)
-                run_keys.add(key)
-        grouped[category] = eligible[:5]
-        diagnostics[category] = {"sources": len(sources), "retrieved": len(candidates), "selected": len(grouped[category]), "errors": errors}
+            reason = classify_story(item, now, seen, run_keys, story_key)
+            if reason != "eligible":
+                reasons[reason] += 1
+                continue
+            if len(eligible) >= 5:
+                reasons["category_limit"] += 1
+                continue
+            item["key"] = story_key(item["url"])
+            eligible.append(item)
+            run_keys.add(item["key"])
+        grouped[category] = eligible
+        diagnostics[category] = {"sources": len(sources), "retrieved": len(candidates),
+                                 "selected": len(eligible), "errors": errors,
+                                 "rejected": reasons}
     print("SOURCE_REPORT " + json.dumps(diagnostics, sort_keys=True))
     print("RESEARCH_ONLY_CATEGORIES " + ", ".join(RESEARCH_TARGETS))
     total = sum(map(len, grouped.values()))
     if not total:
         print("No fresh verified feed items; no post created.")
+        emit_outcome("no_fresh_stories", date=today, report=diagnostics)
         return
     title = f"Side Quest Dispatch – {local.strftime('%B')} {local.day}, {local.year}"
     lines = ["---", "layout: post", f'title: "{title}"', f"date: {today}",
@@ -179,12 +192,16 @@ def main():
               "No significant new updates today that affect fans directly.", "",
               ", ".join(quiet), "",
               "*Editorial note: This automated edition uses dated RSS feed entries. It does not independently fact-check article claims, validate future event dates, summarize full articles, or generate predictions. It deliberately omits unverified concerts, events, promo codes, and images.*", ""]
+    if args.dry_run:
+        emit_outcome("dry_run", date=today, selected=total, report=diagnostics, post=path.name)
+        return
     POSTS.mkdir(parents=True, exist_ok=True)
     INDEX.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines), encoding="utf-8")
     history["urls"] = seen
     INDEX.write_text(json.dumps(history, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"Created {path.name} with {total} feed items.")
+    emit_outcome("published", date=today, selected=total, report=diagnostics, post=path.name)
 
 if __name__ == "__main__":
     main()
