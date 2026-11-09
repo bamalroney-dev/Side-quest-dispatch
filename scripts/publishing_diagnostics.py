@@ -1,7 +1,7 @@
 """Structured, non-sensitive diagnostics for the daily dispatch."""
 import json
 
-OUTCOMES = {"published", "already_exists", "no_fresh_stories", "early_dst_skip", "dry_run"}
+OUTCOMES = {"generated", "already_exists", "no_fresh_stories", "early_dst_skip", "dry_run"}
 
 def emit_outcome(outcome, *, date, selected=0, report=None, post=None):
     if outcome not in OUTCOMES:
@@ -14,7 +14,7 @@ def emit_outcome(outcome, *, date, selected=0, report=None, post=None):
     return payload
 
 def classify_story(item, now, seen, run_keys, story_key):
-    age = now - item["published"]
+    age = now - item["generated"]
     if age.total_seconds() < 0:
         return "future_dated"
     if age.total_seconds() > 48 * 3600:
