@@ -10,3 +10,7 @@ plugins:
   - jekyll-seo-tag
 exclude:
   - README.md
+# Theme navigation (when supported by the active GitHub Pages theme)
+header_pages:
+  - index.md
+  - pokemon-tcg/releases.md
