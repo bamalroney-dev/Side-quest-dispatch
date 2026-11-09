@@ -3,6 +3,10 @@ layout: page
 title: Pokémon TCG Release Tracker
 permalink: /pokemon-tcg/releases/
 ---
+<nav aria-label="Side Quest Dispatch sections" style="display:flex;flex-wrap:wrap;gap:1rem;margin:1rem 0 1.5rem;">
+  <a href="{{ '/' | relative_url }}">Home</a>
+  <a href="{{ '/pokemon-tcg/releases/' | relative_url }}">🎴 Pokémon TCG Releases</a>
+</nav>
 <p>US English-language products. Release dates come from Pokémon's official announcements. Prices labeled <strong>third-party</strong> are reference prices from Celadon Info, not independently confirmed manufacturer MSRP. Unknown prices are shown as unverified. This page is a reviewed snapshot, not a live stock feed.</p>
 <p><label for="tcg-search">Search products:</label> <input id="tcg-search" type="search" placeholder="Product name"></p>
 <p><label for="tcg-filter">Release window:</label> <select id="tcg-filter"><option value="all">All</option><option value="released">Released</option><option value="upcoming">Upcoming</option></select></p>
