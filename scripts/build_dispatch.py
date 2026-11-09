@@ -134,7 +134,7 @@ def main():
         eligible = []
         reasons = {"future_dated": 0, "stale": 0, "previously_published": 0,
                    "duplicate_this_run": 0, "category_limit": 0}
-        for item in sorted(candidates, key=lambda x: x["published"], reverse=True):
+        for item in sorted(candidates, key=lambda x: x["generated"], reverse=True):
             reason = classify_story(item, now, seen, run_keys, story_key)
             if reason != "eligible":
                 reasons[reason] += 1
@@ -164,7 +164,7 @@ def main():
              "Your daily checkpoint for fresh headlines and hobby updates.", "",
              "## ⭐ Top Side Quests", ""]
     highlights = [x for items in grouped.values() for x in items]
-    highlights.sort(key=lambda x: x["published"], reverse=True)
+    highlights.sort(key=lambda x: x["generated"], reverse=True)
     for item in highlights[:5]:
         lines.append(f"- [{md(item['title'])}]({item['url']})")
     lines += ["", "## 📰 Today's Dispatches", ""]
@@ -201,7 +201,7 @@ def main():
     history["urls"] = seen
     INDEX.write_text(json.dumps(history, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"Created {path.name} with {total} feed items.")
-    emit_outcome("published", date=today, selected=total, report=diagnostics, post=path.name)
+    emit_outcome("generated", date=today, selected=total, report=diagnostics, post=path.name)
 
 if __name__ == "__main__":
     main()
