@@ -14,7 +14,7 @@ def emit_outcome(outcome, *, date, selected=0, report=None, post=None):
     return payload
 
 def classify_story(item, now, seen, run_keys, story_key):
-    age = now - item["generated"]
+    age = now - item["published"]
     if age.total_seconds() < 0:
         return "future_dated"
     if age.total_seconds() > 48 * 3600:
