@@ -22,7 +22,8 @@ jobs:
         env:
           TZ: America/Chicago
         run: |
-          python scripts/build_dispatch.py --scheduled
+          python scripts/build_dispatch.py --scheduled | tee "$RUNNER_TEMP/dispatch.log"
+          python scripts/dispatch_summary.py "$RUNNER_TEMP/dispatch.log"
       - name: Commit new dispatch and story index
         run: |
           git config user.name "github-actions[bot]"
