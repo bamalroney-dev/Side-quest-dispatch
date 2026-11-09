@@ -49,11 +49,12 @@ class PublishingReliabilityTests(unittest.TestCase):
             root = pathlib.Path(tmp)
             posts = root / "_posts"
             index = root / "data" / "story-index.json"
-            with patch.object(dispatch, "POSTS", posts), patch.object(dispatch, "INDEX", index), \\
-                 patch.object(dispatch, "FEEDS", {"Disney Parks": [("Fixture", "https://example.org/feed")]}), \\
-                 patch.object(dispatch, "RESEARCH_TARGETS", {}), \\
-                 patch.object(dispatch, "read_feed", return_value=[self.item]), \\
-                 patch.object(sys, "argv", ["build_dispatch.py", "--dry-run"]):
+            with (patch.object(dispatch, "POSTS", posts),
+                  patch.object(dispatch, "INDEX", index),
+                  patch.object(dispatch, "FEEDS", {"Disney Parks": [("Fixture", "https://example.org/feed")]}),
+                  patch.object(dispatch, "RESEARCH_TARGETS", {}),
+                  patch.object(dispatch, "read_feed", return_value=[self.item]),
+                  patch.object(sys, "argv", ["build_dispatch.py", "--dry-run"])):
                 output = io.StringIO()
                 with contextlib.redirect_stdout(output):
                     dispatch.main()
