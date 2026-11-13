@@ -104,3 +104,25 @@
   location: "Tulsa, Oklahoma"
   companions: ["Heather", "Aiden", "Lily"]
   notes: ""
+
+# https://pollstar.com/events/-9054216
+- date: "2026-05-27"
+  title: "MGK — Lost Americana Tour"
+  status: attended
+  headliners: ["MGK"]
+  openers: ["Wiz Khalifa", "Beauty School Dropout"]
+  venue: "iTHINK Financial Amphitheatre"
+  location: "West Palm Beach, Florida"
+  companions: ["Heather", "Aiden", "Lily"]
+  notes: ""
+
+# https://www.concertarchives.org/bands/yungblud?page=3&year=2026
+- date: "2026-06-01"
+  title: "Yungblud — IDOLS: The World Tour"
+  status: attended
+  headliners: ["Yungblud"]
+  openers: ["The Warning"]
+  venue: "Addition Financial Arena"
+  location: "Orlando, Florida"
+  companions: ["Heather", "Aiden", "Lily"]
+  notes: ""
