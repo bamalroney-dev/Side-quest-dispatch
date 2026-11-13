@@ -126,3 +126,80 @@
   location: "Orlando, Florida"
   companions: ["Heather", "Aiden", "Lily"]
   notes: ""
+
+# https://www.visitokc.com/articles/post/disturbed-announces-23-date-take-back-your-life-2024-north-american-tour/
+- date: "2024-01-27"
+  title: "Disturbed — Take Back Your Life Tour"
+  status: attended
+  headliners: ["Disturbed"]
+  openers: ["Falling in Reverse","Plush"]
+  venue: "Paycom Center"
+  location: "Oklahoma City, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.concertarchives.org/bands/imagine-dragons?date=past&page=5
+- date: "2024-09-08"
+  title: "Imagine Dragons — LOOM World Tour"
+  status: attended
+  headliners: ["Imagine Dragons"]
+  openers: ["Cannons"]
+  venue: "Thunder Ridge Nature Arena"
+  location: "Ridgedale, Missouri"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.setlist.fm/setlist/linkin-park/2025/bok-center-tulsa-ok-135ef1c1.html
+- date: "2025-04-28"
+  title: "Linkin Park — From Zero World Tour"
+  status: attended
+  headliners: ["Linkin Park"]
+  openers: ["grandson"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.setlist.fm/setlist/simple-plan/2026/the-zoo-amphitheatre-oklahoma-city-ok-334b3821.html
+- date: "2026-08-08"
+  title: "Simple Plan — Bigger Than You Think! Tour — The Sequel!"
+  status: attended
+  headliners: ["Simple Plan"]
+  openers: ["Bowling for Soup","3OH!3"]
+  venue: "The Zoo Amphitheatre"
+  location: "Oklahoma City, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.concertarchives.org/concerts/break-the-cycle-25th-anniversary-tour--12834160
+- date: "2026-10-16"
+  title: "Staind / Seether — Break the Cycle 25th Anniversary Tour"
+  status: attended
+  headliners: ["Staind"]
+  openers: ["Seether","Hoobastank","Hinder"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather"]
+  notes: ""
+
+# https://tulsatheater.com/event/blue-october-3/tulsa-theater/
+- date: "2026-10-24"
+  title: "Blue October — Foiled 20th Anniversary World Tour"
+  status: attended
+  headliners: ["Blue October"]
+  openers: ["Danny Malone"]
+  venue: "Tulsa Theater"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.visittulsa.com/event/three-days-grace/11240/
+- date: "2026-11-06"
+  title: "Three Days Grace — Alienation Tour"
+  status: attended
+  headliners: ["Three Days Grace"]
+  openers: ["I Prevail","The Funeral Portrait"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
