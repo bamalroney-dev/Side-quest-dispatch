@@ -1,0 +1,30 @@
+---
+layout: default
+title: Concert Timeline
+description: Live music, shared memories, and the next show.
+permalink: /concerts/
+---
+<link rel="stylesheet" href="{{ '/assets/css/concerts.css' | relative_url }}">
+<div class="concerts">
+<h1>Concert Timeline</h1>
+<p class="concert-intro">Live music, shared memories, and the next show.</p>
+{% assign upcoming = site.data.concerts | where: "status", "upcoming" | sort: "date" %}
+{% assign attended = site.data.concerts | where: "status", "attended" | sort: "date" | reverse %}
+<nav class="concert-jump" aria-label="Concert sections"><a href="#upcoming">Upcoming · {{ upcoming.size }}</a><a href="#attended">Attended · {{ attended.size }}</a></nav>
+<section aria-labelledby="upcoming">
+<h2 id="upcoming">Upcoming shows</h2>
+{% if upcoming.size > 0 %}
+<ol class="concert-timeline">
+{% for concert in upcoming %}{% include concert-card.html concert=concert %}{% endfor %}
+</ol>
+{% else %}<p class="concert-empty">The next adventure is still taking shape. Upcoming concerts will appear here.</p>{% endif %}
+</section>
+<section aria-labelledby="attended">
+<h2 id="attended">Shows we’ve attended</h2>
+{% if attended.size > 0 %}
+<ol class="concert-timeline">
+{% for concert in attended %}{% include concert-card.html concert=concert %}{% endfor %}
+</ol>
+{% else %}<p class="concert-empty">The concert memories start here. Past shows will appear once they’re added.</p>{% endif %}
+</section>
+</div>

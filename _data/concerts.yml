@@ -1,0 +1,319 @@
+# Concert history. Dates are quoted YYYY-MM-DD strings.
+# Status is confirmed manually: upcoming or attended.
+# Unknown lists stay empty until confirmed.
+# Kelly date/venue/opener: Billboard, March 19, 2005:
+# https://www.worldradiohistory.com/Archive-All-Music/Billboard/00s/2005/BB-2005-03-19.pdf
+- date: "2005-03-30"
+  title: "Kelly Clarkson — Breakaway Tour"
+  status: attended
+  headliners: ["Kelly Clarkson"]
+  openers: ["Graham Colton Band"]
+  venue: "Tulsa Performing Arts Center — Chapman Music Hall"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: "My second concert."
+
+# Date/venue:
+# https://www.loudmemories.com/concerts/shinedown-at-cains-ballroom-tulsa-us-on-23-january-2005-1421104
+# Theory of a Deadman is also listed for this date; opener roles remain unconfirmed.
+- date: "2005-01-23"
+  title: "Shinedown"
+  status: attended
+  headliners: ["Shinedown"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: "My first concert."
+
+# Tour announcement and concert archive agree on May 3:
+# https://top40-charts.com/news.php?nid=14359
+- date: "2005-05-03"
+  title: "Good Charlotte & Simple Plan — Noise to the World"
+  status: attended
+  headliners: ["Good Charlotte", "Simple Plan"]
+  openers: ["Relient K"]
+  venue: "Expo Square Pavilion"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: ""
+
+# https://www.concertarchives.org/bands/seether?page=6&year=2005
+- date: "2005-06-19"
+  title: "Seether & Crossfade"
+  status: attended
+  headliners: ["Seether", "Crossfade"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: ""
+
+# https://www.setlist.fm/setlist/senses-fail/2005/cains-ballroom-tulsa-ok-73ede2dd.html
+- date: "2005-11-13"
+  title: "Senses Fail & Saves the Day"
+  status: attended
+  headliners: ["Senses Fail", "Saves the Day"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: "Also on the bill: The Early November and Emanuel. Opening order to be confirmed."
+
+# https://www.concertarchives.org/bands/papa-roach?page=4&year=2007
+- date: "2007-07-10"
+  title: "Papa Roach"
+  status: attended
+  headliners: ["Papa Roach"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: "Also on the bill: Madina Lake. Opening role to be confirmed."
+
+# https://www.concertarchives.org/venues/cain-s-ballroom?page=7&year=2007
+# User confirmed this is the January show they attended.
+- date: "2007-01-31"
+  title: "Senses Fail / Alexisonfire"
+  status: attended
+  headliners: ["Senses Fail", "Alexisonfire"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: "Saosin was scheduled but missed the show due to winter weather. Other support and running order to be confirmed."
+
+# https://www.travelok.com/listings/view.profile/id.31083
+- date: "2022-07-09"
+  title: "MGK — Mainstream Sellout Tour"
+  status: attended
+  headliners: ["MGK"]
+  openers: ["Avril Lavigne", "WILLOW"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather", "Aiden", "Lily"]
+  notes: ""
+
+# https://www.travelok.com/listings/view.profile/id.32763
+- date: "2023-08-01"
+  title: "NF — HOPE Tour"
+  status: attended
+  headliners: ["NF"]
+  openers: ["Cordae"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather", "Aiden", "Lily"]
+  notes: ""
+
+# https://pollstar.com/events/-9054216
+- date: "2026-05-27"
+  title: "MGK — Lost Americana Tour"
+  status: attended
+  headliners: ["MGK"]
+  openers: ["Wiz Khalifa", "Beauty School Dropout"]
+  venue: "iTHINK Financial Amphitheatre"
+  location: "West Palm Beach, Florida"
+  companions: ["Heather", "Aiden", "Lily"]
+  notes: ""
+
+# https://www.concertarchives.org/bands/yungblud?page=3&year=2026
+- date: "2026-06-01"
+  title: "Yungblud — IDOLS: The World Tour"
+  status: attended
+  headliners: ["Yungblud"]
+  openers: ["The Warning"]
+  venue: "Addition Financial Arena"
+  location: "Orlando, Florida"
+  companions: ["Heather", "Aiden", "Lily"]
+  notes: ""
+
+# https://www.visitokc.com/articles/post/disturbed-announces-23-date-take-back-your-life-2024-north-american-tour/
+- date: "2024-01-27"
+  title: "Disturbed — Take Back Your Life Tour"
+  status: attended
+  headliners: ["Disturbed"]
+  openers: ["Falling in Reverse","Plush"]
+  venue: "Paycom Center"
+  location: "Oklahoma City, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.concertarchives.org/bands/imagine-dragons?date=past&page=5
+- date: "2024-09-08"
+  title: "Imagine Dragons — LOOM World Tour"
+  status: attended
+  headliners: ["Imagine Dragons"]
+  openers: ["Cannons"]
+  venue: "Thunder Ridge Nature Arena"
+  location: "Ridgedale, Missouri"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.setlist.fm/setlist/linkin-park/2025/bok-center-tulsa-ok-135ef1c1.html
+- date: "2025-04-28"
+  title: "Linkin Park — From Zero World Tour"
+  status: attended
+  headliners: ["Linkin Park"]
+  openers: ["grandson"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.setlist.fm/setlist/simple-plan/2026/the-zoo-amphitheatre-oklahoma-city-ok-334b3821.html
+- date: "2026-08-08"
+  title: "Simple Plan — Bigger Than You Think! Tour — The Sequel!"
+  status: attended
+  headliners: ["Simple Plan"]
+  openers: ["Bowling for Soup","3OH!3"]
+  venue: "The Zoo Amphitheatre"
+  location: "Oklahoma City, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.concertarchives.org/concerts/break-the-cycle-25th-anniversary-tour--12834160
+- date: "2026-10-16"
+  title: "Staind / Seether — Break the Cycle 25th Anniversary Tour"
+  status: attended
+  headliners: ["Staind"]
+  openers: ["Seether","Hoobastank","Hinder"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather"]
+  notes: ""
+
+# https://tulsatheater.com/event/blue-october-3/tulsa-theater/
+- date: "2026-10-24"
+  title: "Blue October — Foiled 20th Anniversary World Tour"
+  status: attended
+  headliners: ["Blue October"]
+  openers: ["Danny Malone"]
+  venue: "Tulsa Theater"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.visittulsa.com/event/three-days-grace/11240/
+- date: "2026-11-06"
+  title: "Three Days Grace — Alienation Tour"
+  status: attended
+  headliners: ["Three Days Grace"]
+  openers: ["I Prevail","The Funeral Portrait"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
+
+# https://www.concertarchives.org/venues/azura-amphitheater?page=13
+- date: "2007-05-12"
+  title: "Fall Out Boy — Honda Civic Tour"
+  status: "attended"
+  headliners: ["Fall Out Boy"]
+  openers: ["Paul Wall","The Academy Is…","Cobra Starship"]
+  venue: "Verizon Wireless Amphitheater"
+  location: "Bonner Springs, Kansas"
+  companions: ["Jonathan"]
+  notes: "Additional support listings include +44; their appearance remains unconfirmed."
+
+# https://www.worldradiohistory.com/Archive-All-Music/Pollstar/10s/10/Pollstar-2010-05-24.pdf
+- date: "2010-04-24"
+  title: "Nickelback — Dark Horse Tour"
+  status: "attended"
+  headliners: ["Nickelback"]
+  openers: ["Breaking Benjamin","Shinedown","Sick Puppies"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Dad"]
+  notes: ""
+
+# https://www.concertarchives.org/concerts/fall-out-boy-jimmy-eat-world-9d05973f-e328-4bde-ab5b-39636a839256
+- date: "2024-03-11"
+  title: "Fall Out Boy — So Much For (2our) Dust"
+  status: "attended"
+  headliners: ["Fall Out Boy"]
+  openers: ["Jimmy Eat World","The Maine","Daisy Grenade"]
+  venue: "Paycom Center"
+  location: "Oklahoma City, Oklahoma"
+  companions: ["Heather","Aiden","Lily","Jonathan"]
+  notes: ""
+
+# https://disneyparksblog.com/wdw/just-announced-2025-epcot-garden-rocks-concert-series-lineup/
+- date: "2025-03-14"
+  date_end: "2025-03-15"
+  date_label: "March 14–15, 2025 · exact day unconfirmed"
+  title: "Blue October — EPCOT Garden Rocks"
+  status: "attended"
+  headliners: ["Blue October"]
+  openers: []
+  venue: "America Gardens Theatre, EPCOT"
+  location: "Lake Buena Vista, Florida"
+  companions: ["Heather","Aiden","Lily"]
+  notes: "Attended in March 2025. The scheduled performance dates were March 14–15; exact attendance day to be confirmed."
+
+# https://www.concertarchives.org/concerts/falling-in-reverse-wage-war-tech-n9ne-sleep-theory
+- date: "2025-08-12"
+  title: "Falling in Reverse — God Is a Weapon Tour"
+  status: "attended"
+  headliners: ["Falling in Reverse"]
+  openers: ["Wage War","Tech N9ne","Sleep Theory"]
+  venue: "Dos Equis Pavilion"
+  location: "Dallas, Texas"
+  companions: ["Heather","Lily"]
+  notes: ""
+
+# https://disneyparksblog.com/wdw/garden-rocks-concert-series-lineup-schedule-and-more/
+- date: "2026-03-08"
+  date_end: "2026-03-09"
+  date_label: "March 8–9, 2026 · exact day unconfirmed"
+  title: "Simple Plan — EPCOT Garden Rocks"
+  status: "attended"
+  headliners: ["Simple Plan"]
+  openers: []
+  venue: "America Gardens Theatre, EPCOT"
+  location: "Lake Buena Vista, Florida"
+  companions: ["Heather","Aiden","Lily"]
+  notes: "Attended in March 2026. The scheduled performance dates were March 8–9; exact attendance day to be confirmed."
+
+# https://www.travelok.com/listings/view.profile/id.32918
+- date: "2023-09-25"
+  title: "The Used — Toxic Positivity Tour"
+  status: "attended"
+  headliners: ["The Used"]
+  openers: ["Sleeping with Sirens","Dead American"]
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather"]
+  notes: ""
+
+# https://www.concertarchives.org/bands/the-used/anniversaries?day=10&month=10
+- date: "2024-10-10"
+  title: "The Used / Taking Back Sunday"
+  status: "attended"
+  headliners: ["The Used","Taking Back Sunday"]
+  openers: ["Raue"]
+  venue: "Tulsa Theater"
+  location: "Tulsa, Oklahoma"
+  companions: ["Aiden","Lily","Heather","Jonathan"]
+  notes: ""
+
+# https://spiritbox.com/blogs/news/north-american-tour-with-korn-and-gojira
+- date: "2024-10-23"
+  title: "Korn — North America Tour 2024"
+  status: "attended"
+  headliners: ["Korn"]
+  openers: ["Gojira","Spiritbox"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather"]
+  notes: ""
+
+# https://news.livenationentertainment.com/news/a-day-to-remember-and-yellowcard-announce-maximum-fun-tour
+- date: "2025-11-20"
+  title: "A Day to Remember / Yellowcard — Maximum Fun Tour"
+  status: "attended"
+  headliners: ["A Day to Remember","Yellowcard"]
+  openers: ["The Wonder Years","Dinosaur Pile-Up"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
