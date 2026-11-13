@@ -91,7 +91,7 @@
   openers: ["Avril Lavigne", "WILLOW"]
   venue: "BOK Center"
   location: "Tulsa, Oklahoma"
-  companions: []
+  companions: ["Heather", "Aiden", "Lily"]
   notes: ""
 
 # https://www.travelok.com/listings/view.profile/id.32763
@@ -102,5 +102,5 @@
   openers: ["Cordae"]
   venue: "BOK Center"
   location: "Tulsa, Oklahoma"
-  companions: []
+  companions: ["Heather", "Aiden", "Lily"]
   notes: ""
