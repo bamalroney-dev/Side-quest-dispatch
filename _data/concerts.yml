@@ -1,0 +1,14 @@
+# Concert history. Dates must be quoted YYYY-MM-DD strings.
+# status: upcoming or attended (attendance is confirmed manually).
+# Leave unknown lists empty; use ["None"] for confirmed no openers.
+# Example (uncomment and replace all example details before publishing):
+# - date: "2027-01-15"
+#   title: "Tour name"
+#   status: upcoming
+#   headliners: ["Artist"]
+#   openers: []
+#   venue: "Venue"
+#   location: "City, State"
+#   companions: []
+#   notes: ""
+[]
