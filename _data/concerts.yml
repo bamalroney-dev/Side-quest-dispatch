@@ -25,3 +25,48 @@
   location: "Tulsa, Oklahoma"
   companions: []
   notes: "My first concert."
+
+# Tour announcement and concert archive agree on May 3:
+# https://top40-charts.com/news.php?nid=14359
+- date: "2005-05-03"
+  title: "Good Charlotte & Simple Plan — Noise to the World"
+  status: attended
+  headliners: ["Good Charlotte", "Simple Plan"]
+  openers: ["Relient K"]
+  venue: "Expo Square Pavilion"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: ""
+
+# https://www.concertarchives.org/bands/seether?page=6&year=2005
+- date: "2005-06-19"
+  title: "Seether & Crossfade"
+  status: attended
+  headliners: ["Seether", "Crossfade"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: ""
+
+# https://www.setlist.fm/setlist/senses-fail/2005/cains-ballroom-tulsa-ok-73ede2dd.html
+- date: "2005-11-13"
+  title: "Senses Fail & Saves the Day"
+  status: attended
+  headliners: ["Senses Fail", "Saves the Day"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: "Also on the bill: The Early November and Emanuel. Opening order to be confirmed."
+
+# https://www.concertarchives.org/bands/papa-roach?page=4&year=2007
+- date: "2007-07-10"
+  title: "Papa Roach"
+  status: attended
+  headliners: ["Papa Roach"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: "Also on the bill: Madina Lake. Opening role to be confirmed."
