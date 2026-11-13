@@ -295,3 +295,25 @@
   location: "Tulsa, Oklahoma"
   companions: ["Aiden","Lily","Heather","Jonathan"]
   notes: ""
+
+# https://spiritbox.com/blogs/news/north-american-tour-with-korn-and-gojira
+- date: "2024-10-23"
+  title: "Korn — North America Tour 2024"
+  status: "attended"
+  headliners: ["Korn"]
+  openers: ["Gojira","Spiritbox"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather"]
+  notes: ""
+
+# https://news.livenationentertainment.com/news/a-day-to-remember-and-yellowcard-announce-maximum-fun-tour
+- date: "2025-11-20"
+  title: "A Day to Remember / Yellowcard — Maximum Fun Tour"
+  status: "attended"
+  headliners: ["A Day to Remember","Yellowcard"]
+  openers: ["The Wonder Years","Dinosaur Pile-Up"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Aiden","Lily"]
+  notes: ""
