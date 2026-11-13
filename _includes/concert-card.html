@@ -1,0 +1,12 @@
+{% assign concert = include.concert %}
+<li class="concert-card">
+<time datetime="{{ concert.date | escape }}">{{ concert.date | date: "%B %-d, %Y" }}</time>
+<h3>{{ concert.title | escape }}</h3>
+<dl>
+<dt>Headliners</dt><dd>{% if concert.headliners.size > 0 %}{{ concert.headliners | join: ", " | escape }}{% else %}To be added{% endif %}</dd>
+<dt>Openers</dt><dd>{% if concert.openers.size > 0 %}{{ concert.openers | join: ", " | escape }}{% else %}To be added{% endif %}</dd>
+<dt>Venue</dt><dd>{{ concert.venue | default: "To be added" | escape }}{% if concert.location and concert.location != "" %} · {{ concert.location | escape }}{% endif %}</dd>
+<dt>{% if concert.status == "attended" %}Went with{% else %}Going with{% endif %}</dt><dd>{% if concert.companions.size > 0 %}{{ concert.companions | join: ", " | escape }}{% else %}To be added{% endif %}</dd>
+</dl>
+{% if concert.notes and concert.notes != "" %}<p class="concert-note">{{ concert.notes | escape }}</p>{% endif %}
+</li>
