@@ -21,3 +21,5 @@ These are example values, not an actual concert. Use quoted YYYY-MM-DD dates and
 Use lists for headliners, openers, and companions. Unknown details render as “To be added”; use `["None"]` if there were definitely no openers. Notes are optional plain text. All concert text is HTML-escaped.
 
 Review the names and details before merging: this page is public when deployed with the rest of the site. To preview, run `bundle install` and `bundle exec jekyll serve`, then visit the site's /concerts/ path.
+
+When attendance is confirmed within a range but the exact day is unknown, use `date` for the first possible day (sorting only), add `date_end` for the last possible day, and add a plain-text `date_label` such as “March 8–9, 2026 · exact day unconfirmed”. The card displays this label instead of claiming attendance on the sorting date. Once the day is confirmed, set `date` to it and remove `date_end` and `date_label`.
