@@ -203,3 +203,73 @@
   location: "Tulsa, Oklahoma"
   companions: ["Heather","Aiden","Lily"]
   notes: ""
+
+# https://www.concertarchives.org/venues/azura-amphitheater?page=13
+- date: "2007-05-12"
+  title: "Fall Out Boy — Honda Civic Tour"
+  status: "attended"
+  headliners: ["Fall Out Boy"]
+  openers: ["Paul Wall","The Academy Is…","Cobra Starship"]
+  venue: "Verizon Wireless Amphitheater"
+  location: "Bonner Springs, Kansas"
+  companions: ["Jonathan"]
+  notes: "Additional support listings include +44; their appearance remains unconfirmed."
+
+# https://www.worldradiohistory.com/Archive-All-Music/Pollstar/10s/10/Pollstar-2010-05-24.pdf
+- date: "2010-04-24"
+  title: "Nickelback — Dark Horse Tour"
+  status: "attended"
+  headliners: ["Nickelback"]
+  openers: ["Breaking Benjamin","Shinedown","Sick Puppies"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather","Dad"]
+  notes: ""
+
+# https://www.concertarchives.org/concerts/fall-out-boy-jimmy-eat-world-9d05973f-e328-4bde-ab5b-39636a839256
+- date: "2024-03-11"
+  title: "Fall Out Boy — So Much For (2our) Dust"
+  status: "attended"
+  headliners: ["Fall Out Boy"]
+  openers: ["Jimmy Eat World","The Maine","Daisy Grenade"]
+  venue: "Paycom Center"
+  location: "Oklahoma City, Oklahoma"
+  companions: ["Heather","Aiden","Lily","Jonathan"]
+  notes: ""
+
+# https://disneyparksblog.com/wdw/just-announced-2025-epcot-garden-rocks-concert-series-lineup/
+- date: "2025-03-14"
+  date_end: "2025-03-15"
+  date_label: "March 14–15, 2025 · exact day unconfirmed"
+  title: "Blue October — EPCOT Garden Rocks"
+  status: "attended"
+  headliners: ["Blue October"]
+  openers: []
+  venue: "America Gardens Theatre, EPCOT"
+  location: "Lake Buena Vista, Florida"
+  companions: ["Heather","Aiden","Lily"]
+  notes: "Attended in March 2025. The scheduled performance dates were March 14–15; exact attendance day to be confirmed."
+
+# https://www.concertarchives.org/concerts/falling-in-reverse-wage-war-tech-n9ne-sleep-theory
+- date: "2025-08-12"
+  title: "Falling in Reverse — God Is a Weapon Tour"
+  status: "attended"
+  headliners: ["Falling in Reverse"]
+  openers: ["Wage War","Tech N9ne","Sleep Theory"]
+  venue: "Dos Equis Pavilion"
+  location: "Dallas, Texas"
+  companions: ["Heather","Lily"]
+  notes: ""
+
+# https://disneyparksblog.com/wdw/garden-rocks-concert-series-lineup-schedule-and-more/
+- date: "2026-03-08"
+  date_end: "2026-03-09"
+  date_label: "March 8–9, 2026 · exact day unconfirmed"
+  title: "Simple Plan — EPCOT Garden Rocks"
+  status: "attended"
+  headliners: ["Simple Plan"]
+  openers: []
+  venue: "America Gardens Theatre, EPCOT"
+  location: "Lake Buena Vista, Florida"
+  companions: ["Heather","Aiden","Lily"]
+  notes: "Attended in March 2026. The scheduled performance dates were March 8–9; exact attendance day to be confirmed."
