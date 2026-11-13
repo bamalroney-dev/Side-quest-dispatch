@@ -82,3 +82,25 @@
   location: "Tulsa, Oklahoma"
   companions: []
   notes: "Saosin was scheduled but missed the show due to winter weather. Other support and running order to be confirmed."
+
+# https://www.travelok.com/listings/view.profile/id.31083
+- date: "2022-07-09"
+  title: "MGK — Mainstream Sellout Tour"
+  status: attended
+  headliners: ["MGK"]
+  openers: ["Avril Lavigne", "WILLOW"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: ""
+
+# https://www.travelok.com/listings/view.profile/id.32763
+- date: "2023-08-01"
+  title: "NF — HOPE Tour"
+  status: attended
+  headliners: ["NF"]
+  openers: ["Cordae"]
+  venue: "BOK Center"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: ""
