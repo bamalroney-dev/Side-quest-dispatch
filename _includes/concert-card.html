@@ -1,6 +1,10 @@
 {% assign concert = include.concert %}
 <li class="concert-card">
+{% if concert.date_end %}
+<span class="date">{{ concert.date_label | escape }}</span>
+{% else %}
 <time datetime="{{ concert.date | escape }}">{{ concert.date | date: "%B %-d, %Y" }}</time>
+{% endif %}
 <h3>{{ concert.title | escape }}</h3>
 <dl>
 <dt>Headliners</dt><dd>{% if concert.headliners.size > 0 %}{{ concert.headliners | join: ", " | escape }}{% else %}To be added{% endif %}</dd>
