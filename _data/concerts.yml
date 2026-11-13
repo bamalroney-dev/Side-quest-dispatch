@@ -11,4 +11,17 @@
   venue: "Tulsa Performing Arts Center — Chapman Music Hall"
   location: "Tulsa, Oklahoma"
   companions: []
+  notes: "My second concert."
+
+# Date/venue:
+# https://www.loudmemories.com/concerts/shinedown-at-cains-ballroom-tulsa-us-on-23-january-2005-1421104
+# Theory of a Deadman is also listed for this date; opener roles remain unconfirmed.
+- date: "2005-01-23"
+  title: "Shinedown"
+  status: attended
+  headliners: ["Shinedown"]
+  openers: []
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: []
   notes: "My first concert."
