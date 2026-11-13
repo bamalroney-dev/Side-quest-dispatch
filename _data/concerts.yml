@@ -273,3 +273,25 @@
   location: "Lake Buena Vista, Florida"
   companions: ["Heather","Aiden","Lily"]
   notes: "Attended in March 2026. The scheduled performance dates were March 8–9; exact attendance day to be confirmed."
+
+# https://www.travelok.com/listings/view.profile/id.32918
+- date: "2023-09-25"
+  title: "The Used — Toxic Positivity Tour"
+  status: "attended"
+  headliners: ["The Used"]
+  openers: ["Sleeping with Sirens","Dead American"]
+  venue: "Cain's Ballroom"
+  location: "Tulsa, Oklahoma"
+  companions: ["Heather"]
+  notes: ""
+
+# https://www.concertarchives.org/bands/the-used/anniversaries?day=10&month=10
+- date: "2024-10-10"
+  title: "The Used / Taking Back Sunday"
+  status: "attended"
+  headliners: ["The Used","Taking Back Sunday"]
+  openers: ["Raue"]
+  venue: "Tulsa Theater"
+  location: "Tulsa, Oklahoma"
+  companions: ["Aiden","Lily","Heather","Jonathan"]
+  notes: ""
