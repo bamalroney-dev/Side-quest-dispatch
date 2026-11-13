@@ -1,14 +1,14 @@
-# Concert history. Dates must be quoted YYYY-MM-DD strings.
-# status: upcoming or attended (attendance is confirmed manually).
-# Leave unknown lists empty; use ["None"] for confirmed no openers.
-# Example (uncomment and replace all example details before publishing):
-# - date: "2027-01-15"
-#   title: "Tour name"
-#   status: upcoming
-#   headliners: ["Artist"]
-#   openers: []
-#   venue: "Venue"
-#   location: "City, State"
-#   companions: []
-#   notes: ""
-[]
+# Concert history. Dates are quoted YYYY-MM-DD strings.
+# Status is confirmed manually: upcoming or attended.
+# Unknown lists stay empty until confirmed.
+# Kelly date/venue/opener: Billboard, March 19, 2005:
+# https://www.worldradiohistory.com/Archive-All-Music/Billboard/00s/2005/BB-2005-03-19.pdf
+- date: "2005-03-30"
+  title: "Kelly Clarkson — Breakaway Tour"
+  status: attended
+  headliners: ["Kelly Clarkson"]
+  openers: ["Graham Colton Band"]
+  venue: "Tulsa Performing Arts Center — Chapman Music Hall"
+  location: "Tulsa, Oklahoma"
+  companions: []
+  notes: "My first concert."
