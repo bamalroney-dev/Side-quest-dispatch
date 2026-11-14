@@ -1,0 +1,29 @@
+name: Dispatch Recovery Preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run offline tests
+        run: python -m unittest discover -s tests -v
+      - name: Preview today's dispatch without publishing
+        run: |
+          python scripts/build_dispatch.py --dry-run | tee "$RUNNER_TEMP/dispatch-preview.log"
+          python scripts/dispatch_summary.py "$RUNNER_TEMP/dispatch-preview.log"
+      - name: Confirm no tracked files changed
+        run: |
+          if ! git diff --exit-code -- _posts data/story-index.json; then
+            echo "::error::Recovery preview unexpectedly modified tracked publishing files"
+            exit 1
+          fi
+          if [ -n "$(git ls-files --others --exclude-standard _posts data)" ]; then
+            echo "::error::Recovery preview unexpectedly created untracked publishing files"
+            exit 1
+          fi
