@@ -60,7 +60,7 @@ def candidates_from_html(base, document):
             continue
         if url.rstrip("/") == base.rstrip("/"):
             continue
-        candidates.append({"title": re.sub(r"\\s+", " ", title).strip(), "source_url": url,
+        candidates.append({"title": re.sub(r"\s+", " ", title).strip(), "source_url": url,
                            "release_date": None, "msrp_usd": None,
                            "msrp_verified": False, "review_status": "needs_verification"})
     return candidates
@@ -86,7 +86,7 @@ def validate_dataset(data):
         assert p.get("msrp_usd") is None or p.get("msrp_verified") is True, "Unverified MSRP"
         assert p.get("reference_price_usd") is None or p.get("reference_price_source"), "Reference price missing source"
         date = p.get("release_date", p.get("date", ""))
-        assert re.fullmatch(r"\\d{4}-\\d{2}(-\\d{2})?", date), "Invalid release date"
+        assert re.fullmatch(r"\d{4}-\d{2}(-\d{2})?", date), "Invalid release date"
         if len(date) == 10:
             dt.date.fromisoformat(date)
 
@@ -118,7 +118,7 @@ def main():
                       "source_errors": errors}, indent=2))
     if not args.dry_run:
         QUEUE.parent.mkdir(parents=True, exist_ok=True)
-        QUEUE.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\\n")
+        QUEUE.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
 
 if __name__ == "__main__":
     main()
