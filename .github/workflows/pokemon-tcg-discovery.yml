@@ -1,0 +1,39 @@
+name: Pokémon TCG discovery (review only)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 1,13 * * *'
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: pokemon-tcg-review
+  cancel-in-progress: false
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate tracker and discovery tests
+        run: python -m unittest discover -s tests -p 'test_pokemon_tcg_discovery.py' -v
+      - name: Discover official announcement candidates
+        run: python scripts/pokemon_tcg_discovery.py
+      - name: Open review pull request (never merge)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- data/pokemon-tcg-review-queue.json; then
+            echo "No new candidate changes"
+            exit 0
+          fi
+          branch="automation/pokemon-tcg-candidates"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add data/pokemon-tcg-review-queue.json
+          git commit -m "Review newly discovered Pokémon TCG announcements"
+          git push --force-with-lease origin "$branch"
+          gh pr create --base main --head "$branch" --title "Review Pokémon TCG announcement candidates" --body "Official-source discovery only. Verify product identity, release date, and manufacturer MSRP before transferring entries to the published tracker. Do not auto-merge." --draft || echo "Review PR already exists or could not be opened; inspect workflow log"
