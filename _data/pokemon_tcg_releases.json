@@ -6,129 +6,210 @@
       "date": "2026-10-02",
       "name": "Mini Portfolio",
       "msrp_usd": null,
-      "price_verification": "official",
       "source": "https://www.pokemon.com/us/pokemon-news/check-out-every-pokemon-tcg-product-release-in-october-2026",
-      "price_source": null
+      "id": "mini-portfolio",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-10-02",
+      "msrp_verified": false,
+      "reference_price_usd": null,
+      "reference_price_source": null
     },
     {
       "date": "2026-10-02",
       "name": "Enhanced 2-Pack Blister",
       "msrp_usd": null,
-      "price_verification": "official",
       "source": "https://www.pokemon.com/us/pokemon-news/check-out-every-pokemon-tcg-product-release-in-october-2026",
-      "price_source": null
+      "id": "enhanced-2-pack-blister",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-10-02",
+      "msrp_verified": false,
+      "reference_price_usd": null,
+      "reference_price_source": null
     },
     {
       "date": "2026-10-02",
       "name": "30th Celebration Mini Tin",
       "msrp_usd": null,
-      "price_verification": "official",
       "source": "https://www.pokemon.com/us/pokemon-news/check-out-every-pokemon-tcg-product-release-in-october-2026",
-      "price_source": null
+      "id": "30th-celebration-mini-tin",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-10-02",
+      "msrp_verified": false,
+      "reference_price_usd": null,
+      "reference_price_source": null
     },
     {
       "date": "2026-10-02",
       "name": "30th Celebration Booster Bundle",
       "msrp_usd": null,
-      "price_verification": "official",
       "source": "https://www.pokemon.com/us/pokemon-news/check-out-every-pokemon-tcg-product-release-in-october-2026",
-      "price_source": null
+      "id": "30th-celebration-booster-bundle",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-10-02",
+      "msrp_verified": false,
+      "reference_price_usd": null,
+      "reference_price_source": null
     },
     {
       "date": "2026-10-23",
       "name": "Deck Crafter's Collection",
       "msrp_usd": null,
-      "price_verification": "official",
       "source": "https://www.pokemon.com/us/pokemon-news/check-out-every-pokemon-tcg-product-release-in-october-2026",
-      "price_source": null
+      "id": "deck-crafter-s-collection",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-10-23",
+      "msrp_verified": false,
+      "reference_price_usd": null,
+      "reference_price_source": null
     },
     {
       "date": "2026-10-30",
       "name": "30th Celebration Battle Deck: Espeon ex",
-      "msrp_usd": 19.99,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/us/pokemon-news/check-out-every-pokemon-tcg-product-release-in-october-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "30th-celebration-battle-deck-espeon-ex",
+      "variant": "Espeon ex",
+      "announcement_date": null,
+      "release_date": "2026-10-30",
+      "msrp_verified": false,
+      "reference_price_usd": 19.99,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-10-30",
       "name": "30th Celebration Battle Deck: Umbreon ex",
-      "msrp_usd": 19.99,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/us/pokemon-news/check-out-every-pokemon-tcg-product-release-in-october-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "30th-celebration-battle-deck-umbreon-ex",
+      "variant": "Umbreon ex",
+      "announcement_date": null,
+      "release_date": "2026-10-30",
+      "msrp_verified": false,
+      "reference_price_usd": 19.99,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-11-06",
       "name": "Mega Evolution—Delta Reign Booster Display Box",
-      "msrp_usd": 161.64,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "mega-evolution-delta-reign-booster-display-box",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11-06",
+      "msrp_verified": false,
+      "reference_price_usd": 161.64,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-11-06",
       "name": "Mega Evolution—Delta Reign Elite Trainer Box",
-      "msrp_usd": 49.99,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "mega-evolution-delta-reign-elite-trainer-box",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11-06",
+      "msrp_verified": false,
+      "reference_price_usd": 49.99,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-11-06",
       "name": "Mega Evolution—Delta Reign Pokémon Center Elite Trainer Box",
-      "msrp_usd": 59.99,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "mega-evolution-delta-reign-poke-mon-center-elite-trainer-box",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11-06",
+      "msrp_verified": false,
+      "reference_price_usd": 59.99,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-11-06",
       "name": "Mega Evolution—Delta Reign Build & Battle Box",
       "msrp_usd": null,
-      "price_verification": "official",
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": null
+      "id": "mega-evolution-delta-reign-build-battle-box",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11-06",
+      "msrp_verified": false,
+      "reference_price_usd": null,
+      "reference_price_source": null
     },
     {
       "date": "2026-11-06",
       "name": "Mega Evolution—Delta Reign Booster Bundle",
-      "msrp_usd": 26.94,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "mega-evolution-delta-reign-booster-bundle",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11-06",
+      "msrp_verified": false,
+      "reference_price_usd": 26.94,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-11-13",
       "name": "Mega Greninja ex League Battle Deck",
-      "msrp_usd": 29.99,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "mega-greninja-ex-league-battle-deck",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11-13",
+      "msrp_verified": false,
+      "reference_price_usd": 29.99,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-11",
       "name": "30th Celebration Ditto Premium Collection",
-      "msrp_usd": 39.99,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "30th-celebration-ditto-premium-collection",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11",
+      "msrp_verified": false,
+      "reference_price_usd": 39.99,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-11",
       "name": "30th Celebration Figure Collection",
-      "msrp_usd": 29.99,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "30th-celebration-figure-collection",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11",
+      "msrp_verified": false,
+      "reference_price_usd": 29.99,
+      "reference_price_source": "https://celadoninfo.com/us"
     },
     {
       "date": "2026-11",
       "name": "30th Celebration Ultra-Premium Collection",
-      "msrp_usd": 179.99,
-      "price_verification": "third-party",
+      "msrp_usd": null,
       "source": "https://www.pokemon.com/uk/news/check-out-every-pokemon-tcg-product-release-in-november-2026",
-      "price_source": "https://celadoninfo.com/us"
+      "id": "30th-celebration-ultra-premium-collection",
+      "variant": null,
+      "announcement_date": null,
+      "release_date": "2026-11",
+      "msrp_verified": false,
+      "reference_price_usd": 179.99,
+      "reference_price_source": "https://celadoninfo.com/us"
     }
-  ]
+  ],
+  "schema_version": 2
 }
