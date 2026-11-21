@@ -22,7 +22,7 @@ SOURCES = (
     "https://www.pokemon.com/us/pokemon-news",
     "https://press.pokemon.com/en",
 )
-KEYWORDS = re.compile(r"pokemon\\s+tcg|trading.card.game|mega.evolution|elite.trainer.box|booster.bundle", re.I)
+KEYWORDS = re.compile(r"pokemon[ ]+tcg|trading.card.game|mega.evolution|elite.trainer.box|booster.bundle", re.I)
 MAX_BYTES = 2_000_000
 
 class Links(HTMLParser):
