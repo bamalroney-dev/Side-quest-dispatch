@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 import urllib.parse
 import urllib.request
+import unicodedata
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "_data/pokemon_tcg_releases.json"
@@ -21,7 +22,7 @@ SOURCES = (
     "https://www.pokemon.com/us/pokemon-news",
     "https://press.pokemon.com/en",
 )
-KEYWORDS = re.compile(r"pokemon.tc[g]|trading.card.game|mega.evolution|elite.trainer.box|booster.bundle", re.I)
+KEYWORDS = re.compile(r"pokemon\\s+tcg|trading.card.game|mega.evolution|elite.trainer.box|booster.bundle", re.I)
 MAX_BYTES = 2_000_000
 
 class Links(HTMLParser):
@@ -56,7 +57,9 @@ def candidates_from_html(base, document):
     candidates = []
     for href, title in parser.links:
         url = normalize_url(base, href)
-        if not url or not title or not KEYWORDS.search(title + " " + url):
+        normalized = unicodedata.normalize("NFKD", title + " " + (url or ""))
+        normalized = "".join(c for c in normalized if not unicodedata.combining(c))
+        if not url or not title or not KEYWORDS.search(normalized):
             continue
         if url.rstrip("/") == base.rstrip("/"):
             continue
