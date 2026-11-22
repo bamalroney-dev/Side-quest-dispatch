@@ -1,4 +1,77 @@
 {
   "schema_version": 1,
-  "candidates": []
+  "candidates": [
+    {
+      "title": "Español",
+      "source_url": "https://press.pokemon.com/es-MX/releases/MEDIA-ALERT-Z-Mega-Evolution-Pokemon-to-Debut-in-New-Pokemon-Trading-C",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    },
+    {
+      "title": "MEDIA ALERT: Legendary Pokémon Mega Rayquaza ex Descends into Battle in New Pokémon Trading Card Game: Mega Evolution—Delta Reign Expansion, Available Today",
+      "source_url": "https://press.pokemon.com/en/releases/MEDIA-ALERT-Legendary-Pokemon-Mega-Rayquaza-ex-Descends-into-Battle-in",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    },
+    {
+      "title": "MEDIA ALERT: Z Mega Evolution Pokémon to Debut in New Pokémon Trading Card Game: Mega Evolution—Flowing Fists Expansion Coming Soon",
+      "source_url": "https://press.pokemon.com/en/releases/MEDIA-ALERT-Z-Mega-Evolution-Pokemon-to-Debut-in-New-Pokemon-Trading-C",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    },
+    {
+      "title": "Pokémon Trading Card Game",
+      "source_url": "https://press.pokemon.com/en/Items/Schedule/Pokemon-Trading-Card-Game",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    },
+    {
+      "title": "Pokémon Trading Card Game Pocket",
+      "source_url": "https://press.pokemon.com/en/Items/Details/Pokemon-Trading-Card-Game-Pocket",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    },
+    {
+      "title": "Português",
+      "source_url": "https://press.pokemon.com/pt-BR/releases/MEDIA-ALERT-Z-Mega-Evolution-Pokemon-to-Debut-in-New-Pokemon-Trading-C",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    },
+    {
+      "title": "The Pokémon TCG: Mega Evolution—Flowing Fists Expansion Arrives February 6, 2027",
+      "source_url": "https://www.pokemon.com/us/news/the-pokemon-tcg-mega-evolution-flowing-fists-expansion-arrives-february-6-2027",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    },
+    {
+      "title": "Thready to Be Impressed?",
+      "source_url": "https://www.pokemon.com/us/features/art-of-the-pokemon-tcg-mega-evolution-delta-reign-expansion",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    },
+    {
+      "title": "Trading Card Game",
+      "source_url": "https://www.pokemon.com/us/pokemon-tcg",
+      "release_date": null,
+      "msrp_usd": null,
+      "msrp_verified": false,
+      "review_status": "needs_verification"
+    }
+  ]
 }
