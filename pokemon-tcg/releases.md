@@ -3,16 +3,16 @@ layout: page
 title: Pokémon TCG Release Tracker
 permalink: /pokemon-tcg/releases/
 ---
-<p>US English-language products. Release dates come from Pokémon's official announcements. Prices labeled <strong>third-party</strong> are reference prices from Celadon Info, not independently confirmed manufacturer MSRP. Unknown prices are shown as unverified. This page is a reviewed snapshot, not a live stock feed.</p>
+<p>US English-language products. Release dates come from Pokémon's official announcements. Manufacturer-confirmed MSRP is displayed separately from third-party reference prices. Unknown MSRP is shown as not verified. This page is a reviewed snapshot, not a live stock feed.</p>
 <p><label for="tcg-search">Search products:</label> <input id="tcg-search" type="search" placeholder="Product name"></p>
 <p><label for="tcg-filter">Release window:</label> <select id="tcg-filter"><option value="all">All</option><option value="released">Released</option><option value="upcoming">Upcoming</option></select></p>
-<table><thead><tr><th>Release date</th><th>Product</th><th>US price reference</th><th>Source</th></tr></thead><tbody id="tcg-products">
+<table><thead><tr><th>Release date</th><th>Product</th><th>Manufacturer MSRP</th><th>Third-party reference</th><th>Source</th></tr></thead><tbody id="tcg-products">
 {% assign products = site.data.pokemon_tcg_releases.products | sort: "date" %}
 {% for product in products %}
 <tr data-name="{{ product.name | downcase | escape }}" data-date="{{ product.date }}">
 <td>{{ product.date }}</td><td>{{ product.name | escape }}</td>
-<td>{% if product.msrp_usd %}${{ product.msrp_usd }} ({{ product.price_verification }}){% else %}Not verified{% endif %}</td>
-<td><a href="{{ product.source }}" rel="noopener noreferrer">Pokémon announcement</a>{% if product.price_source %} · <a href="{{ product.price_source }}" rel="noopener noreferrer">Price reference</a>{% endif %}</td>
+<td>{% if product.msrp_verified and product.msrp_usd %}${{ product.msrp_usd }}{% else %}MSRP not verified{% endif %}</td><td>{% if product.reference_price_usd %}${{ product.reference_price_usd }} (third-party){% else %}—{% endif %}</td>
+<td><a href="{{ product.source }}" rel="noopener noreferrer">Pokémon announcement</a>{% if product.reference_price_source %} · <a href="{{ product.reference_price_source }}" rel="noopener noreferrer">Price reference</a>{% endif %}</td>
 </tr>
 {% endfor %}
 </tbody></table>
