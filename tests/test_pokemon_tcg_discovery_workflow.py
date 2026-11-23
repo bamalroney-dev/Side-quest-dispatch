@@ -35,10 +35,21 @@ class ReviewWorkflowTests(unittest.TestCase):
             '#!/usr/bin/env bash\n'
             'if [[ "${GH_FAIL:-}" == "1" ]]; then exit 7; fi\n'
             'if [[ "${GH_EXISTING:-}" == "1" && "$1" == "pr" && "$2" == "list" ]]; then echo 12; fi\n'
-            'if [[ "$1" == "pr" && "$2" == "create" ]]; then echo created >> "$GH_LOG"; fi\n'
+            'if [[ "$1" == "pr" && "$2" == "create" ]]; then\n'
+            '  if [[ -n "${GH_CREATE_ERROR:-}" ]]; then echo "$GH_CREATE_ERROR" >&2; exit 8; fi\n'
+            '  echo created >> "$GH_LOG"\n'
+            'fi\n'
         )
         (self.bin / "gh").chmod(0o755)
-        self.env = dict(os.environ, PATH=f"{self.bin}:{os.environ['PATH']}", GH_LOG=str(self.base / "gh.log"))
+        self.summary = self.base / "summary"
+        self.env = dict(
+            os.environ,
+            PATH=f"{self.bin}:{os.environ['PATH']}",
+            GH_LOG=str(self.base / "gh.log"),
+            GITHUB_SERVER_URL="https://github.com",
+            GITHUB_REPOSITORY="owner/repo",
+            GITHUB_STEP_SUMMARY=str(self.summary),
+        )
 
     def git(self, *args, cwd=None):
         return subprocess.run(["git", *args], cwd=cwd or self.work, text=True, capture_output=True, check=True).stdout
@@ -85,6 +96,61 @@ class ReviewWorkflowTests(unittest.TestCase):
         self.populate_queue("https://www.pokemon.com/one")
         self.env["GH_FAIL"] = "1"
         self.assertNotEqual(self.run_script("publish", success=False).returncode, 0)
+
+    def test_full_history_restores_comparison_on_diverged_branches(self):
+        self.run_script("prepare")
+        self.populate_queue("https://www.pokemon.com/one")
+        self.run_script("publish")
+        log = self.base / "gh.log"
+        log.unlink()
+        self.git("commit", "--allow-empty", "-m", "Advance main", cwd=self.seed)
+        self.git("push", "origin", "main", cwd=self.seed)
+
+        self.work = self.base / "shallow"
+        self.git("clone", "--depth=1", self.remote.as_uri(), str(self.work), cwd=self.base)
+        self.run_script("prepare")
+        failed = self.run_script("publish", success=False)
+        self.assertNotEqual(failed.returncode, 0)
+        self.assertIn("Verify the checkout has full history", failed.stderr)
+        self.assertFalse(log.exists())
+
+        self.work = self.base / "full"
+        self.git("clone", self.remote.as_uri(), str(self.work), cwd=self.base)
+        self.run_script("prepare")
+        self.run_script("publish")
+        self.assertEqual(log.read_text(), "created\n")
+
+    def test_pr_policy_denial_preserves_queue_and_links_to_manual_review(self):
+        self.run_script("prepare")
+        self.populate_queue("https://www.pokemon.com/one")
+        self.env["GH_CREATE_ERROR"] = (
+            "GraphQL: GitHub Actions is not permitted to create or approve pull requests (createPullRequest)"
+        )
+
+        result = self.run_script("publish")
+
+        self.assertIn("::warning::", result.stdout)
+        self.assertIn(
+            "https://github.com/owner/repo/compare/main...automation/pokemon-tcg-candidates?expand=1",
+            self.summary.read_text(),
+        )
+        self.assertIn("one", self.git("show", f"automation/pokemon-tcg-candidates:{QUEUE}", cwd=self.remote))
+        self.assertFalse((self.base / "gh.log").exists())
+
+        del self.env["GH_CREATE_ERROR"]
+        self.run_script("publish")
+        self.assertEqual((self.base / "gh.log").read_text(), "created\n")
+
+    def test_unexpected_pr_create_failure_propagates(self):
+        self.run_script("prepare")
+        self.populate_queue("https://www.pokemon.com/one")
+        self.env["GH_CREATE_ERROR"] = "GitHub API unavailable"
+
+        result = self.run_script("publish", success=False)
+
+        self.assertEqual(result.returncode, 8)
+        self.assertIn("GitHub API unavailable", result.stderr)
+        self.assertFalse(self.summary.exists())
 
     def test_no_changes_creates_no_empty_pr(self):
         self.run_script("prepare")
