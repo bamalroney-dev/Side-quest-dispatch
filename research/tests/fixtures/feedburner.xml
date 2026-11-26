@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0">
+  <channel>
+    <title>Disney Food Blog</title>
+    <link>https://www.disneyfoodblog.com/</link>
+    <description>Fixture for publisher RSS metadata</description>
+    <item>
+      <title>Festival Snacks &amp; Drinks</title>
+      <link>https://feedproxy.google.com/~r/disneyfoodblog/example</link>
+      <feedburner:origLink>http://disneyfoodblog.com/2026/11/25/festival-snacks/?utm_medium=rss#menu</feedburner:origLink>
+      <description><![CDATA[<p>What’s <strong>new</strong> at the festival.</p>]]></description>
+      <pubDate>Wed, 25 Nov 2026 10:15:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Festival Snacks (duplicate)</title>
+      <link>https://www.disneyfoodblog.com/2026/11/25/festival-snacks?fbclid=abc</link>
+      <pubDate>Wed, 25 Nov 2026 15:15:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Unrelated entry</title>
+      <link>https://example.com/news/</link>
+    </item>
+  </channel>
+</rss>

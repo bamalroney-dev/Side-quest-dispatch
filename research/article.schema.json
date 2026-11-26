@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Collected research article",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source", "title", "canonical_url", "published_at", "summary", "collection_method"],
+  "properties": {
+    "source": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1, "maxLength": 300},
+    "canonical_url": {"type": "string", "pattern": "^https://", "format": "source-url"},
+    "published_at": {"type": ["string", "null"], "format": "utc-timestamp"},
+    "summary": {"type": "string", "maxLength": 500},
+    "collection_method": {"enum": ["feedburner", "original_rss", "website"]}
+  }
+}

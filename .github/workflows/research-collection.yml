@@ -1,0 +1,52 @@
+name: Research collection
+
+on:
+  workflow_dispatch:
+    inputs:
+      history_run_id:
+        description: Optional prior research workflow run ID to continue its history
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install collector dependencies
+        run: python -m pip install -r research/requirements.txt
+      - name: Run offline tests
+        run: |
+          python -m unittest discover -s tests -v
+          python -m unittest discover -s research/tests -v
+      - name: Restore prior research history
+        if: inputs.history_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.history_run_id }}
+          name: research-data
+          path: prior-research-data
+      - name: Reuse the saved database
+        if: inputs.history_run_id != ''
+        run: |
+          mkdir -p research-data
+          cp prior-research-data/history.sqlite3 research-data/history.sqlite3
+      - name: Collect research
+        id: collection
+        run: python -m research
+      - name: Upload snapshot, source health, and history
+        if: always() && (steps.collection.outcome == 'success' || steps.collection.outcome == 'failure')
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-data
+          path: research-data/
+          if-no-files-found: error
