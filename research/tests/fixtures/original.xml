@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Disney Food Blog</title>
+    <link>https://www.disneyfoodblog.com/</link>
+    <description>Fixture for original WordPress feed</description>
+    <item>
+      <title>Festival Snacks &amp; Drinks</title>
+      <link>https://www.disneyfoodblog.com/2026/11/25/festival-snacks/</link>
+      <pubDate>Wed, 25 Nov 2026 15:15:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Holiday Menus</title>
+      <link>/2026/11/26/holiday-menus/</link>
+      <description>New picks.</description>
+    </item>
+  </channel>
+</rss>

@@ -7,3 +7,5 @@ Published at https://bamalroney-dev.github.io/Side-quest-dispatch/ after enablin
 New issues belong in `_posts/YYYY-MM-DD-side-quest-dispatch.md`.
 
 For local development, run `bundle install` then `bundle exec jekyll serve`.
+
+See the [research collection guide](research/README.md) for local runs and GitHub Actions artifacts.
