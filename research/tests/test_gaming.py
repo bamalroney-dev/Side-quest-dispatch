@@ -57,20 +57,24 @@ class GamingTests(unittest.TestCase):
     def test_epic_filters_nonzero_prices_expired_offers_and_addons(self):
         game = {
             "title": "Fixture Game", "offerType": "BASE_GAME", "productSlug": "fixture-game/home",
-            "price": {"totalPrice": {"discountPrice": 0, "originalPrice": 1999}},
+            "price": {"totalPrice": {"discountPrice": 0, "originalPrice": 1999, "currencyCode": "USD"}},
             "promotions": {"promotionalOffers": [{"promotionalOffers": [{
                 "startDate": "2026-11-26T16:00:00Z", "endDate": "2026-12-03T16:00:00Z",
                 "discountSetting": {"discountType": "PERCENTAGE", "discountPercentage": 0},
             }]}]},
         }
-        paid = {**game, "price": {"totalPrice": {"discountPrice": 399, "originalPrice": 1999}}}
-        always_free = {**game, "price": {"totalPrice": {"discountPrice": 0, "originalPrice": 0}}}
+        paid = {**game, "price": {"totalPrice": {"discountPrice": 399, "originalPrice": 1999,
+                                                  "currencyCode": "USD"}}}
+        always_free = {**game, "price": {"totalPrice": {"discountPrice": 0, "originalPrice": 0,
+                                                         "currencyCode": "USD"}}}
+        other_currency = {**game, "price": {"totalPrice": {"discountPrice": 0, "originalPrice": 1999,
+                                                            "currencyCode": "CAD"}}}
         wrongly_discounted = copy.deepcopy(game)
         wrongly_discounted["promotions"]["promotionalOffers"][0]["promotionalOffers"][0][
             "discountSetting"
         ]["discountPercentage"] = 25
         payload = {"data": {"Catalog": {"searchStore": {"elements": [
-            game, paid, always_free, wrongly_discounted, {**game, "offerType": "ADD_ON"},
+            game, paid, always_free, other_currency, wrongly_discounted, {**game, "offerType": "ADD_ON"},
         ]}}}}
         response = Response(json.dumps(payload).encode(), gaming.EPIC_URL, 1)
         current = datetime(2026, 11, 27, tzinfo=timezone.utc)
@@ -109,7 +113,7 @@ class GamingTests(unittest.TestCase):
             self.assertEqual((pokemon_health["new"], pokemon_health["duplicates_in_run"]), (1, 1))
             self.assertEqual(len(snapshot["previously_seen_urls"]), 2)
             self.assertEqual(len(snapshot["articles"]), 3)
-            self.assertIn("needs verification", draft(snapshot, report))
+            self.assertIn("Open source", draft(snapshot, report))
             record_run(directory, "2026-11-26T17:00:00+00:00", [disney, pokemon_down])
             snapshot, report = read_reports(directory)
             self.assertEqual(report["sources"][1]["status"], "failed")

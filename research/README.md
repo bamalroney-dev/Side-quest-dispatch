@@ -26,7 +26,8 @@ Reusing the same `--output-dir` continues the collection history. The default is
 | `latest.json` | Unique articles from the most recent usable collection, plus the URLs already seen on earlier runs. An initial failure creates an empty snapshot with a null run ID. |
 | `source-health.json` | The latest attempt's source status, fallback checks, HTTP errors, retries, and new, repeated, duplicate, and skipped article counts. It includes the current snapshot's run ID and the last successful collection time. |
 | `history.sqlite3` | All runs and the latest observed metadata for each canonical URL, with first and last run IDs. Back up this file to preserve history. |
-| `briefing-draft.md` | The workflow generates a review draft with up to three candidates per source, with new URLs first. |
+| `briefing-draft.md` | The workflow generates a review draft with up to three linked candidates per source, with new URLs first. |
+| `claim-verification.json` | Source URLs and field-level results for the selected gaming candidates. Results can be verified, unverified, conflicting, or unavailable. |
 
 Articles are validated against [the article schema](article.schema.json). Canonicalization prefers FeedBurner's original article link, collapses the publisher's www and bare domains, strips tracking parameters and fragments, and keeps other query parameters. Publication timestamps are converted to UTC when available. Website discovery uses dated publisher links and their visible titles, coalesces repeated links, and returns up to 30 articles with a null publication timestamp and empty summary. RSS entries may also lack a publication timestamp. Metadata is source-reported and can include older articles. Use `latest_published_at` to judge feed freshness.
 
@@ -35,10 +36,12 @@ The database is authoritative. Each JSON file is replaced atomically, and the ru
 To generate the review draft locally from the current snapshot:
 
 ```sh
-python -m research.briefing --output research-data/briefing-draft.md
+python -m research.briefing --verify --output research-data/briefing-draft.md
 ```
 
-The draft identifies failed sources and refuses to use a prior snapshot after a failed collection. Review the links and source claims before copying material into the Notion briefing archive.
+The draft identifies failed sources and refuses to use a prior snapshot after a failed collection. It links to candidate sources and includes only structured claims that passed verification. The original headlines and summaries remain in `latest.json`. Omitting `--verify` generates a link-only draft without fetching evidence.
+
+Pokémon release dates require a unique product match and an exact date in the official press schedule. Pokémon MSRP still requires separate official product evidence. Epic's price and deadline require a fresh U.S. catalog response that matches the collected product and promotion window. The briefing omits expired offers. Amazon Luna's announcement can help identify games for review. Account-specific claims, eligibility, and deadlines require a separate check.
 
 ## Run on GitHub Actions
 

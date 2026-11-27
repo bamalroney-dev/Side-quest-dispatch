@@ -107,7 +107,10 @@ def epic_slug(item):
 def epic_window(item, now):
     promotions = item.get("promotions") or {}
     total_price = (item.get("price") or {}).get("totalPrice") or {}
-    if total_price.get("discountPrice") != 0 or total_price.get("originalPrice", 0) <= 0:
+    current_price = total_price.get("discountPrice")
+    original_price = total_price.get("originalPrice")
+    if (total_price.get("currencyCode") != "USD" or type(current_price) is not int or current_price != 0
+            or type(original_price) is not int or original_price <= 0):
         return None
     for group in promotions.get("promotionalOffers") or []:
         for offer in group["promotionalOffers"]:

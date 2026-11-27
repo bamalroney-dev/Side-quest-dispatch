@@ -43,8 +43,8 @@ jobs:
       - name: Collect research
         id: collection
         run: python -m research
-      - name: Generate briefing draft
-        run: python -m research.briefing --output research-data/briefing-draft.md
+      - name: Verify official claims and generate briefing draft
+        run: python -m research.briefing --verify --output research-data/briefing-draft.md
       - name: Upload snapshot, source health, and history
         if: always() && (steps.collection.outcome == 'success' || steps.collection.outcome == 'failure')
         uses: actions/upload-artifact@v4
