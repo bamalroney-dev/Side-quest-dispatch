@@ -10,6 +10,17 @@
     "canonical_url": {"type": "string", "pattern": "^https://", "format": "source-url"},
     "published_at": {"type": ["string", "null"], "format": "utc-timestamp"},
     "summary": {"type": "string", "maxLength": 500},
-    "collection_method": {"enum": ["feedburner", "original_rss", "website"]}
+    "collection_method": {"enum": ["feedburner", "original_rss", "website", "rss", "store_api"]},
+    "review_status": {"const": "needs_verification"},
+    "offer_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["starts_at", "ends_at", "market"],
+      "properties": {
+        "starts_at": {"type": "string", "format": "utc-timestamp"},
+        "ends_at": {"type": "string", "format": "utc-timestamp"},
+        "market": {"const": "US"}
+      }
+    }
   }
 }

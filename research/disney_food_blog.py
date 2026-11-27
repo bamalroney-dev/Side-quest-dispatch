@@ -1,20 +1,16 @@
 """Disney Food Blog collection in publisher fallback order."""
 
-import logging
 import re
-from datetime import datetime, timezone
-from html.parser import HTMLParser
+from functools import partial
 from urllib.parse import urljoin, urlsplit
 
-import feedparser
 from jsonschema import ValidationError
 
 from scripts.pokemon_tcg_discovery import Links
 
-from .http import FetchError
-from .models import canonical_url, validate_article
+from .checks import check_endpoint
+from .parsing import article, rss_articles
 
-LOG = logging.getLogger(__name__)
 SOURCE = "Disney Food Blog"
 PUBLISHER = "www.disneyfoodblog.com"
 HOST_ALIASES = {PUBLISHER: PUBLISHER, "disneyfoodblog.com": PUBLISHER}
@@ -25,63 +21,6 @@ ENDPOINTS = (
 )
 POST_PATH = re.compile(r"/\d{4}/\d{2}/\d{2}/[^/]+/?")
 ARTICLE_LIMIT = 30
-
-
-class PlainText(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.parts = []
-
-    def handle_data(self, data):
-        self.parts.append(data)
-
-    def handle_starttag(self, tag, attrs):
-        if tag in {"p", "br", "li", "div"}:
-            self.parts.append(" ")
-
-
-def plain_text(markup, limit):
-    parser = PlainText()
-    parser.feed(markup)
-    parser.close()
-    return " ".join("".join(parser.parts).split())[:limit].strip()
-
-
-def article(title, url, method, published_at=None, summary=""):
-    return validate_article({
-        "source": SOURCE,
-        "title": plain_text(title, 300),
-        "canonical_url": canonical_url(url, HOST_ALIASES),
-        "published_at": published_at,
-        "summary": plain_text(summary, 500),
-        "collection_method": method,
-    })
-
-
-def rss_articles(response, method):
-    # The HTTP client owns transport. Passing bytes prevents feedparser from fetching.
-    feed = feedparser.parse(response.body, response_headers={
-        "content-location": response.url,
-        "content-type": "application/xml",
-    })
-    if feed.bozo or not feed.version.startswith("rss"):
-        detail = type(feed.bozo_exception).__name__ if feed.bozo else "wrong feed format"
-        raise ValueError(f"Invalid RSS: {detail}")
-
-    records, skipped = [], 0
-    for entry in feed.entries:
-        try:
-            published = entry.get("published_parsed")
-            published_at = datetime(*published[:6], tzinfo=timezone.utc).isoformat() if published else None
-            link = entry.get("feedburner_origlink") or entry.get("link", "")
-            if not link:
-                raise ValueError("Missing article URL")
-            records.append(article(entry.get("title", ""), urljoin(response.url, link),
-                                   method, published_at, entry.get("summary", "")))
-        except (ValueError, ValidationError) as exc:
-            skipped += 1
-            LOG.debug("%s skipped invalid RSS article: %s", SOURCE, exc)
-    return records, skipped
 
 
 def website_articles(response, method):
@@ -96,7 +35,7 @@ def website_articles(response, method):
                 "", "read more", "continue reading", "read more »",
             }:
                 continue
-            record = article(title, url, method)
+            record = article(SOURCE, HOST_ALIASES, title, url, method)
         except (ValueError, ValidationError):
             skipped += 1
             continue
@@ -111,29 +50,20 @@ def website_articles(response, method):
 def collect(client):
     checks = []
     for method, url in ENDPOINTS:
-        check = {"method": method, "url": url, "attempts": 0, "skipped": 0}
-        checks.append(check)
-        try:
-            response = client.get(
-                url, source=SOURCE, hosts=set(HOST_ALIASES) | {"feeds.feedburner.com"},
-                accept="text/html" if method == "website" else "application/rss+xml, application/xml, text/xml",
-            )
-            check.update(attempts=response.attempts, final_url=response.url)
-            parse = website_articles if method == "website" else rss_articles
-            records, skipped = parse(response, method)
-            check["skipped"] = skipped
-            if not records:
-                raise ValueError("No valid articles found")
-        except FetchError as exc:
-            check.update(attempts=exc.attempts, http_status=exc.status, error=str(exc), stage="fetch")
-        except ValueError as exc:
-            check.update(error=str(exc), stage="parse")
+        is_website = method == "website"
+        if is_website:
+            parse = website_articles
+            accept = "text/html"
         else:
-            check["status"] = "ok"
+            parse = partial(rss_articles, source=SOURCE, hosts=HOST_ALIASES)
+            accept = "application/rss+xml, application/xml, text/xml"
+        records, check = check_endpoint(
+            client, SOURCE, method, url, set(HOST_ALIASES) | {"feeds.feedburner.com"}, accept, parse,
+        )
+        checks.append(check)
+        if check["status"] == "ok":
             return records, {
-                "source": SOURCE, "status": "ok" if method == "feedburner" and not skipped else "degraded",
+                "source": SOURCE, "status": "ok" if method == "feedburner" and not check["skipped"] else "degraded",
                 "method": method, "checks": checks,
             }
-        check["status"] = "failed"
-        LOG.warning("%s %s failed: %s", SOURCE, method, check["error"])
     return [], {"source": SOURCE, "status": "failed", "method": None, "checks": checks}

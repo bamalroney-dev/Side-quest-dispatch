@@ -1,6 +1,14 @@
 # Research collection
 
-Phase 1 collects Disney Food Blog article metadata for research review. It tries the [FeedBurner RSS feed](https://feeds.feedburner.com/disneyfoodblog/feed), the [publisher's original RSS feed](https://www.disneyfoodblog.com/feed/), then article links from [The Latest](https://www.disneyfoodblog.com/the-latest/). A fetch error, invalid RSS, or an endpoint with zero usable records advances collection to the next endpoint.
+The pipeline collects evidence for Side Quest Dispatch review.
+
+| Source | Collection and coverage |
+| --- | --- |
+| Disney Food Blog | [FeedBurner](https://feeds.feedburner.com/disneyfoodblog/feed), then the [original RSS feed](https://www.disneyfoodblog.com/feed/), then [The Latest](https://www.disneyfoodblog.com/the-latest/). A fetch error, invalid RSS, or zero usable records advances to the next endpoint. |
+| Pokémon TCG | Reuses the existing official news and press discovery parser. Candidates retain `needs_verification`. Verify release dates, products, and prices against official evidence. |
+| Epic Games Store | Checks Epic's U.S. storefront data for active zero-price base-game promotions with a dated offer window. Verify claim terms on the [store](https://store.epicgames.com/en-US/free-games) before briefing readers. Repeated promotions for a product share its URL in history. |
+| Amazon Luna (Prime Gaming) | The [Amazon Game Studios newsroom](https://www.amazongamestudios.com/en-us/news/) provides monthly Luna announcements. The snapshot links to the newest announcement. Individual PC claims, member eligibility, and deadlines need verification on the [claims page](https://gaming.amazon.com/). |
+| Old School RuneScape | Reuses the official OSRS RSS endpoint in the editorial source registry. |
 
 ## Run locally
 
@@ -18,10 +26,19 @@ Reusing the same `--output-dir` continues the collection history. The default is
 | `latest.json` | Unique articles from the most recent usable collection, plus the URLs already seen on earlier runs. An initial failure creates an empty snapshot with a null run ID. |
 | `source-health.json` | The latest attempt's source status, fallback checks, HTTP errors, retries, and new, repeated, duplicate, and skipped article counts. It includes the current snapshot's run ID and the last successful collection time. |
 | `history.sqlite3` | All runs and the latest observed metadata for each canonical URL, with first and last run IDs. Back up this file to preserve history. |
+| `briefing-draft.md` | The workflow generates a review draft with up to three candidates per source, with new URLs first. |
 
 Articles are validated against [the article schema](article.schema.json). Canonicalization prefers FeedBurner's original article link, collapses the publisher's www and bare domains, strips tracking parameters and fragments, and keeps other query parameters. Publication timestamps are converted to UTC when available. Website discovery uses dated publisher links and their visible titles, coalesces repeated links, and returns up to 30 articles with a null publication timestamp and empty summary. RSS entries may also lack a publication timestamp. Metadata is source-reported and can include older articles. Use `latest_published_at` to judge feed freshness.
 
-The database is authoritative. Each JSON file is replaced atomically, and the run IDs show which attempt a reader is seeing. A total source failure exits with code 1, records the failed attempt, and keeps the last usable snapshot. A successful fallback or skipped RSS entry reports `degraded` and exits with code 0.
+The database is authoritative. Each JSON file is replaced atomically, and the run IDs show which attempt a reader is seeing. A partial failure preserves the successful sources in the new snapshot and reports failures with their last successful collection times. A failed run without usable results exits with code 1 and keeps the last usable snapshot. A successful fallback or malformed records report `degraded`. Within a run, if two sources return the same canonical URL, the first collector's record goes into the snapshot and the later source reports the duplicate.
+
+To generate the review draft locally from the current snapshot:
+
+```sh
+python -m research.briefing --output research-data/briefing-draft.md
+```
+
+The draft identifies failed sources and refuses to use a prior snapshot after a failed collection. Review the links and source claims before copying material into the Notion briefing archive.
 
 ## Run on GitHub Actions
 
