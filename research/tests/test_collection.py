@@ -92,13 +92,13 @@ class StorageTests(unittest.TestCase):
 
     def test_history_deduplicates_within_runs_and_across_endpoints(self):
         first, primary = disney_food_blog.collect(FixtureClient(fixture("feedburner.xml")))
-        record_run(self.directory, NOW, first, primary)
+        record_run(self.directory, NOW, [(first, primary)])
         report = self.read("source-health.json")["sources"][0]
         self.assertEqual((report["records"], report["new"], report["duplicates_in_run"]), (1, 1, 1))
         backup, health = disney_food_blog.collect(
             FixtureClient(FetchError("timed out", 3), fixture("original.xml")),
         )
-        record_run(self.directory, NOW, backup, health)
+        record_run(self.directory, NOW, [(backup, health)])
         snapshot = self.read("latest.json")
         self.assertEqual(snapshot["previously_seen_urls"], [first[0]["canonical_url"]])
         report = self.read("source-health.json")["sources"][0]
@@ -113,11 +113,12 @@ class StorageTests(unittest.TestCase):
 
     def test_total_failure_preserves_latest_success_and_returns_nonzero(self):
         first = disney_food_blog.collect(FixtureClient(fixture("original.xml")))
-        record_run(self.directory, NOW, *first)
+        record_run(self.directory, NOW, [first])
         success = self.read("latest.json")
         failure = FixtureClient(FetchError("forbidden", 1, 403), b"<html></html>", b"<html></html>")
         with patch.object(__main__, "HttpClient", return_value=failure), patch.object(
-            sys, "argv", ["research", "--output-dir", str(self.directory)],
+            __main__, "COLLECTORS", (disney_food_blog.collect,),
+        ), patch.object(sys, "argv", ["research", "--output-dir", str(self.directory)],
         ):
             self.assertEqual(__main__.main(), 1)
         self.assertEqual(self.read("latest.json"), success)
@@ -128,6 +129,6 @@ class StorageTests(unittest.TestCase):
 
     def test_first_run_failure_writes_empty_snapshot_and_report(self):
         failure = disney_food_blog.collect(FixtureClient(*[FetchError("offline", 3)] * 3))
-        record_run(self.directory, NOW, *failure)
+        record_run(self.directory, NOW, [failure])
         self.assertEqual(self.read("latest.json")["articles"], [])
         self.assertIsNone(self.read("source-health.json")["snapshot_run_id"])
