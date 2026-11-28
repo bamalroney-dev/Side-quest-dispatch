@@ -39,7 +39,7 @@ def claim_lines(finding, now):
     return lines
 
 
-def draft(snapshot, report, verification=None, *, now=None):
+def draft(snapshot, report, verification=None, *, now=None, included_urls=None):
     candidates = briefing_candidates(snapshot, report)
     run_id = snapshot["run_id"]
     findings = {}
@@ -61,7 +61,8 @@ def draft(snapshot, report, verification=None, *, now=None):
         lines.extend([f"## {name}", "",
                       f"Source health **{source['status']}** · {source['new']} new · "
                       f"{source['previously_seen']} previously seen", ""])
-        articles = candidates[name]
+        articles = [article for article in candidates[name]
+                    if included_urls is None or article["canonical_url"] in included_urls]
         reported = set()
         for article in articles:
             url = article["canonical_url"]
@@ -76,7 +77,8 @@ def draft(snapshot, report, verification=None, *, now=None):
                     lines.append(f"  {line}")
                     reported.add(key)
         if not articles:
-            lines.append("No candidates in this snapshot.")
+            lines.append("No new or changed candidates to review." if included_urls is not None
+                         else "No candidates in this snapshot.")
         lines.append("")
     return "\n".join(lines)
 

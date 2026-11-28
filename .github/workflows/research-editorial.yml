@@ -1,0 +1,111 @@
+name: Research editorial handoff
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Archive a verified briefing or open a draft PR from editorial selections
+        type: choice
+        options: [archive, draft_pr]
+        default: archive
+      research_run_id:
+        description: Research collection run ID from its GitHub Actions URL
+        required: true
+        type: string
+      selected_urls:
+        description: Space-separated URLs copied from the Notion review draft
+        required: false
+        type: string
+      edition_date:
+        description: Date of the proposed edition in YYYY-MM-DD
+        required: false
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: research-editorial
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    if: github.ref == 'refs/heads/main' && inputs.operation == 'archive'
+    permissions:
+      actions: read
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r research/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.research_run_id }}
+          name: research-data
+          path: research-data
+      - name: Archive verified research
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_BRIEFING_PARENT_ID: ${{ vars.NOTION_BRIEFING_PARENT_ID }}
+          RESEARCH_RUN_ID: ${{ inputs.research_run_id }}
+        run: |
+          last_success=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/research-collection.yml/runs?branch=main&status=success&per_page=1" --jq '.workflow_runs[0].id // empty')
+          last_success_args=()
+          if [[ -n "$last_success" ]]; then last_success_args=(--last-success-run-id "$last_success"); fi
+          python -m research.editorial_cli archive --run-id "$RESEARCH_RUN_ID" \
+            --data-dir research-data --output-dir editorial-output --check-run-provenance "${last_success_args[@]}"
+      - name: Report collection and handoff status
+        if: always()
+        run: |
+          if [[ -f editorial-output/command-center.md ]]; then
+            cat editorial-output/command-center.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload status report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: editorial-status
+          path: editorial-output/command-center.*
+          if-no-files-found: ignore
+
+  draft-pr:
+    if: github.ref == 'refs/heads/main' && inputs.operation == 'draft_pr'
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r research/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.research_run_id }}
+          name: research-data
+          path: research-data
+      - name: Open draft PR for selected URLs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_BRIEFING_PARENT_ID: ${{ vars.NOTION_BRIEFING_PARENT_ID }}
+          RESEARCH_RUN_ID: ${{ inputs.research_run_id }}
+          RESEARCH_SELECTED_URLS: ${{ inputs.selected_urls }}
+          RESEARCH_EDITION_DATE: ${{ inputs.edition_date }}
+        run: |
+          python -m research.editorial_cli review --run-id "$RESEARCH_RUN_ID" \
+            --edition-date "$RESEARCH_EDITION_DATE" --data-dir research-data \
+            --output-dir editorial-output --check-run-provenance --open-pr
