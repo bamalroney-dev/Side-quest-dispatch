@@ -28,10 +28,13 @@ def notion():
 
 def check_provenance(repo, run_id):
     source = json.loads(command("gh", "api", f"repos/{repo}/actions/runs/{run_id}").stdout)
-    if (source["path"], source["head_branch"], source["event"], source["status"]) != (
-        ".github/workflows/research-collection.yml", "main", "workflow_dispatch", "completed",
+    if (
+        source["path"] != ".github/workflows/research-collection.yml"
+        or source["head_branch"] != "main"
+        or source["event"] not in {"workflow_dispatch", "schedule"}
+        or source["status"] != "completed"
     ):
-        raise ValueError("Use a completed manual Research collection run on main")
+        raise ValueError("Use a completed Research collection run on main")
 
 
 def parse_args():
