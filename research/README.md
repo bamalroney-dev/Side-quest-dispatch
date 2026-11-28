@@ -45,18 +45,20 @@ Pokémon release dates require a unique product match and an exact date in the o
 
 ## Run on GitHub Actions
 
-Once GitHub registers the workflow on the default branch, open **Actions → Research collection → Run workflow** and select the desired ref. Download the `research-data` artifact from the run summary. Failed collection runs also upload their diagnostics when available. The workflow runs on manual dispatch and uploads artifacts with read-only repository permissions.
+GitHub schedules **Research collection** daily at **6:00 p.m. Central** using `America/Chicago`. The scheduled run restores history from the latest successful **Research collection** run on `main`. If its artifact is unavailable, run collection manually with an available prior run ID, or leave that input blank to deliberately start new history. A successful scheduled collection starts the separate editorial archive job. Its result appears under **Research editorial handoff** in Actions.
 
-GitHub runners start with an empty filesystem. To continue history, supply the numeric `history_run_id` from a prior run in this repository whose `research-data` artifact is still available. Save `history.sqlite3` separately when you need to retain history beyond GitHub's artifact retention period.
+To collect manually, open **Actions → Research collection → Run workflow** and select the desired ref. Download the `research-data` artifact from the run summary. Failed collection runs also upload their diagnostics when available. The workflow uploads artifacts with read-only repository permissions.
+
+GitHub runners start with an empty filesystem. For a manual run, supply the numeric `history_run_id` from a prior run in this repository whose `research-data` artifact is still available. Save `history.sqlite3` separately when you need to retain history beyond GitHub's artifact retention period.
 
 ## Editorial handoff
 
-**Research editorial handoff** is a separate manual workflow. It reads a completed **Research collection** run on `main`. Use the large run ID from the Actions URL for both operations.
+**Research editorial handoff** archives successful scheduled collections and supports manual archive and publication review. Both operations read a completed **Research collection** run on `main`. For manual dispatch, use the large run ID from the Actions URL.
 
 1. Configure the `NOTION_TOKEN` repository secret with a Notion connection that has read and insert access to the briefing archive. Connect it to the archive page in Notion and set its UUID as the `NOTION_BRIEFING_PARENT_ID` repository variable.
 2. Run **Research editorial handoff** on `main` with **archive**. The workflow creates a review page titled **Side Quest Dispatch Research Review** followed by the run ID. A repeat checks the page and its receipt before reusing it. Use one handoff path at a time for each run.
 3. An editor reviews the sources in that page and copies the exact source URLs they select. Run the workflow with **draft_pr**, the same run ID, the selected URLs separated by spaces, and the proposed edition date. The workflow proposes a separate research roundup in a draft PR from a review branch. It checks the archived receipt before accepting any URL. If the repository policy blocks Actions from creating a PR, the run reports the review-branch comparison link for opening it manually.
-4. Use the **editorial-status** artifact to refresh the **Side Quest Dispatch Research Status** Page in the Personal Command Center. The report includes source and handoff status and flags dated source material or last successful collections older than 48 hours. The GitHub workflow generates the report. Updating the Space Page is a manual handoff through its connected Pages tool.
+4. Use the **editorial-status** artifact to refresh the **Side Quest Dispatch Research Status** Page in the Personal Command Center. The report includes source and handoff status and flags dated source material or last successful collections older than 48 hours. Updating the Space Page uses the connected Pages tool.
 
 The Notion archive receipt records which source URLs appeared in the review draft and their verified fields at the time. Collection history still tracks which URLs were fetched. Repeat coverage stays out of later Notion drafts unless a verified field changes. If a run has no new or changed items, the workflow reports that outcome without creating a review page.
 

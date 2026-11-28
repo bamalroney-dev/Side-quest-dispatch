@@ -1,4 +1,5 @@
 import copy
+import json
 import tempfile
 import unittest
 from datetime import datetime, timedelta
@@ -6,10 +7,38 @@ from pathlib import Path
 from subprocess import CompletedProcess
 from unittest.mock import Mock, patch
 
+from research.editorial_cli import check_provenance
 from research.editorial_handoff import archive, prepare, receipt_from_markdown, status_report, title_for
 from research.review_pr import open_draft, render_edition
 from test_verification import DEADLINE, GAME_URL, NOW, SCHEDULE, TCG_URL, FixtureClient, inputs, storefront
 from research.verification import verify
+
+
+class ProvenanceTests(unittest.TestCase):
+    def setUp(self):
+        self.source = {"path": ".github/workflows/research-collection.yml", "head_branch": "main",
+                       "event": "schedule", "status": "completed"}
+
+    def check_run(self, **overrides):
+        output = json.dumps({**self.source, **overrides})
+        with patch("research.editorial_cli.command",
+                   return_value=CompletedProcess([], 0, output, "")) as command:
+            check_provenance("owner/repo", 123)
+        command.assert_called_once_with("gh", "api", "repos/owner/repo/actions/runs/123")
+
+    def test_accepts_completed_scheduled_and_manual_collection_runs(self):
+        self.check_run()
+        self.check_run(event="workflow_dispatch")
+
+    def test_rejects_unexpected_workflow_branch_trigger_or_status(self):
+        for overrides in (
+            {"event": "pull_request"},
+            {"path": ".github/workflows/research-editorial.yml"},
+            {"head_branch": "test"},
+            {"status": "in_progress"},
+        ):
+            with self.subTest(overrides=overrides), self.assertRaisesRegex(ValueError, "Research collection"):
+                self.check_run(**overrides)
 
 
 class MemoryArchive:

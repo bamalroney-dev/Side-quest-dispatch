@@ -1,6 +1,10 @@
 name: Research editorial handoff
 
 on:
+  workflow_run:
+    workflows: [Research collection]
+    branches: [main]
+    types: [completed]
   workflow_dispatch:
     inputs:
       operation:
@@ -23,13 +27,19 @@ on:
 
 permissions: {}
 
-concurrency:
-  group: research-editorial
-  cancel-in-progress: false
-
 jobs:
   archive:
-    if: github.ref == 'refs/heads/main' && inputs.operation == 'archive'
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      ((github.event_name == 'workflow_dispatch' && inputs.operation == 'archive') ||
+       (github.event_name == 'workflow_run' &&
+        github.event.workflow_run.event == 'schedule' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main' &&
+        github.event.workflow_run.head_repository.full_name == github.repository))
+    concurrency:
+      group: research-editorial-archive
+      cancel-in-progress: false
     permissions:
       actions: read
       contents: read
@@ -46,7 +56,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: ${{ inputs.research_run_id }}
+          run-id: ${{ github.event.workflow_run.id || inputs.research_run_id }}
           name: research-data
           path: research-data
       - name: Archive verified research
@@ -54,7 +64,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_BRIEFING_PARENT_ID: ${{ vars.NOTION_BRIEFING_PARENT_ID }}
-          RESEARCH_RUN_ID: ${{ inputs.research_run_id }}
+          RESEARCH_RUN_ID: ${{ github.event.workflow_run.id || inputs.research_run_id }}
         run: |
           last_success=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/research-collection.yml/runs?branch=main&status=success&per_page=1" --jq '.workflow_runs[0].id // empty')
           last_success_args=()
@@ -76,7 +86,10 @@ jobs:
           if-no-files-found: ignore
 
   draft-pr:
-    if: github.ref == 'refs/heads/main' && inputs.operation == 'draft_pr'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.operation == 'draft_pr'
+    concurrency:
+      group: research-editorial-draft-pr
+      cancel-in-progress: false
     permissions:
       actions: read
       contents: write

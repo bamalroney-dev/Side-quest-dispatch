@@ -1,6 +1,9 @@
 name: Research collection
 
 on:
+  schedule:
+    - cron: '0 18 * * *'
+      timezone: America/Chicago
   workflow_dispatch:
     inputs:
       history_run_id:
@@ -11,6 +14,10 @@ on:
 permissions:
   contents: read
   actions: read
+
+concurrency:
+  group: research-collection-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   collect:
@@ -27,16 +34,30 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
           python -m unittest discover -s research/tests -v
+      - name: Choose the prior history run
+        id: history
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HISTORY_RUN_ID: ${{ inputs.history_run_id }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "schedule" ]]; then
+            HISTORY_RUN_ID=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/research-collection.yml/runs?branch=main&status=success&per_page=1" --jq '.workflow_runs[0].id // empty')
+          fi
+          if [[ -n "$HISTORY_RUN_ID" && ! "$HISTORY_RUN_ID" =~ ^[1-9][0-9]{0,19}$ ]]; then
+            echo "::error::Use a GitHub Actions run ID for history."
+            exit 1
+          fi
+          echo "run_id=$HISTORY_RUN_ID" >> "$GITHUB_OUTPUT"
       - name: Restore prior research history
-        if: inputs.history_run_id != ''
+        if: steps.history.outputs.run_id != ''
         uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: ${{ inputs.history_run_id }}
+          run-id: ${{ steps.history.outputs.run_id }}
           name: research-data
           path: prior-research-data
       - name: Reuse the saved database
-        if: inputs.history_run_id != ''
+        if: steps.history.outputs.run_id != ''
         run: |
           mkdir -p research-data
           cp prior-research-data/history.sqlite3 research-data/history.sqlite3
