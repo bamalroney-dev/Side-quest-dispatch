@@ -49,6 +49,25 @@ Once GitHub registers the workflow on the default branch, open **Actions → Res
 
 GitHub runners start with an empty filesystem. To continue history, supply the numeric `history_run_id` from a prior run in this repository whose `research-data` artifact is still available. Save `history.sqlite3` separately when you need to retain history beyond GitHub's artifact retention period.
 
+## Editorial handoff
+
+**Research editorial handoff** is a separate manual workflow. It reads a completed **Research collection** run on `main`. Use the large run ID from the Actions URL for both operations.
+
+1. Configure the `NOTION_TOKEN` repository secret with a Notion connection that has read and insert access to the briefing archive. Connect it to the archive page in Notion and set its UUID as the `NOTION_BRIEFING_PARENT_ID` repository variable.
+2. Run **Research editorial handoff** on `main` with **archive**. The workflow creates a review page titled **Side Quest Dispatch Research Review** followed by the run ID. A repeat checks the page and its receipt before reusing it. Use one handoff path at a time for each run.
+3. An editor reviews the sources in that page and copies the exact source URLs they select. Run the workflow with **draft_pr**, the same run ID, the selected URLs separated by spaces, and the proposed edition date. The workflow proposes a separate research roundup in a draft PR from a review branch. It checks the archived receipt before accepting any URL. If the repository policy blocks Actions from creating a PR, the run reports the review-branch comparison link for opening it manually.
+4. Use the **editorial-status** artifact to refresh the **Side Quest Dispatch Research Status** Page in the Personal Command Center. The report includes source and handoff status and flags dated source material or last successful collections older than 48 hours. The GitHub workflow generates the report. Updating the Space Page is a manual handoff through its connected Pages tool.
+
+The Notion archive receipt records which source URLs appeared in the review draft and their verified fields at the time. Collection history still tracks which URLs were fetched. Repeat coverage stays out of later Notion drafts unless a verified field changes. If a run has no new or changed items, the workflow reports that outcome without creating a review page.
+
+For a local preview, download and extract the collection artifact:
+
+```sh
+python -m research.editorial_cli preview --run-id 46142444937 --data-dir research-data --output-dir research-data/editorial-preview
+```
+
+The preview produces Notion-ready Markdown, a receipt, and a status report. Pass `--receipts` with a JSON array of prior archive receipts to preview coverage filtering. To preview a particular publication selection, use `review` with `--edition-date`, one or more `--select-url` options, and `--receipt` with the archive receipt. This writes `edition-preview.md` locally. The publication workflow reads the actual receipt from Notion before opening a draft PR.
+
 ## Troubleshoot
 
 - Read `source-health.json` for the endpoint, error stage, attempt count, and HTTP status when available. The HTTP client uses a 12-second socket timeout and up to three attempts for transient errors. Backoff is capped at 30 seconds.
